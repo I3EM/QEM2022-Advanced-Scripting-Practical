@@ -1,0 +1,1 @@
+Image step2 := remove_polynomial_background(step1)

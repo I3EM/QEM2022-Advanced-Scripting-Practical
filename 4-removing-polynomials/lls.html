@@ -1,0 +1,399 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Suggested Approach - QEM Pratical: Advanced Script Programming for Image Processing in Digital Micrograph</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../mdbook-admonish.css">
+        <link rel="stylesheet" href="../mermaid.css">
+
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../0-introduction/introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../0-introduction/using-this-document.html">How to Use this Document</a></li><li class="chapter-item expanded affix "><a href="../0-introduction/mystery_processing.html">Overview of the Mystery Processing</a></li><li class="chapter-item expanded "><a href="../1-extracting-pseudospectrum/recap.html"><strong aria-hidden="true">1.</strong> Reverting the Transfer Function</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../1-extracting-pseudospectrum/pseudospectrum.html"><strong aria-hidden="true">1.1.</strong> Extracting the Pseudospectrum</a></li><li class="chapter-item expanded "><a href="../2-averaging-maximas/maxima.html"><strong aria-hidden="true">1.2.</strong> Averaging Maxima Positions</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2-averaging-maximas/peak_finding.html"><strong aria-hidden="true">1.2.1.</strong> Suggested Approach</a></li><li class="chapter-item expanded "><a href="../2-averaging-maximas/solution_part1b.html"><strong aria-hidden="true">1.2.2.</strong> Proposed Implementation</a></li></ol></li><li class="chapter-item expanded "><a href="../3-reverting-transfert-function/mtf.html"><strong aria-hidden="true">1.3.</strong> Performing the Inversion</a></li></ol></li><li class="chapter-item expanded "><a href="../4-removing-polynomials/part_2.html"><strong aria-hidden="true">2.</strong> Removing the Distortion</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../4-removing-polynomials/lls.html" class="active"><strong aria-hidden="true">2.1.</strong> Suggested Approach</a></li><li class="chapter-item expanded "><a href="../4-removing-polynomials/solution_part2.html"><strong aria-hidden="true">2.2.</strong> Proposed Implementation</a></li></ol></li><li class="chapter-item expanded "><a href="../5-installing-scripts/part_3.html"><strong aria-hidden="true">3.</strong> Reconstructing the Image</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../6-appendices/references.html">To Go Further</a></li><li class="chapter-item expanded affix "><a href="../6-appendices/mystery_processing_complete.html">Mystery Processing: Complete Script</a></li><li class="chapter-item expanded affix "><a href="../6-appendices/proposed_solution_complete.html">Proposed Solution: Complete Script</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">QEM Pratical: Advanced Script Programming for Image Processing in Digital Micrograph</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="suggested-approach-linear-least-squares"><a class="header" href="#suggested-approach-linear-least-squares">Suggested Approach: Linear Least Squares</a></h1>
+<p><em>Linear Least Squares</em> is a method to find a solution to the problem:</p>
+<p>\[ f(x, y, \dots) = A a(x, y, \dots) + B b(x, y, \dots) + \dots + r(x, y, \dots) \]</p>
+<p>Where \(f\) is a function that you know and want to express in terms of a linear
+combination of known functions \(a\), \(b\), \(c\)... Since such a linear
+combination usually do not exist, there is always a residual function \(r\). 
+The goal is then to find a linear combination (in other words, the values for the
+coefficients \(A\), \(B\), ...) that is the closest to \(f\), and so to make
+\(r\) as small as possible (with respect to the quadratic \(L_2\) norm, hence the
+name <em>Least Squares</em>)).</p>
+<p>In that equation, \(f\), \(r\), \(a\), \(b\), ... may take any number
+of variables and those may be integers (which means it can be a \(n\]-dimensional
+image for example); their return value may also be multidimensional.</p>
+<p>This method is usually used in 2 contexts:</p>
+<ol>
+<li>When \(f\) is known to be a linear combination of known basis functions, possibly coming
+from a noisy measurement, and we want to estimate as best as we can the proportion
+of each basis function in \(f\) disregarding the noise.</li>
+<li>When \(f\) comes from a measurement whose systematic noise is known to be a linear
+combination of known basis functions, and we want to remove the noise as best as we can.</li>
+</ol>
+<p>In our case, we fall in the second context.</p>
+<p><em>Linear Least Square</em> consist in solving the following matrix equation:</p>
+<p>\[ \mathbf{A} \pmb{x} = \pmb{v} \]</p>
+<p>Where the matrix \(\mathbf{A}\) is defined as:</p>
+<p>\[
+\begin{pmatrix}
+a \cdot a &amp; a \cdot b &amp; a \cdot c &amp; \cdots \\
+b \cdot a &amp; b \cdot b &amp; b \cdot c &amp; \cdots \\
+c \cdot a &amp; c \cdot b &amp; c \cdot c &amp; \cdots \\
+\vdots  &amp;   \vdots  &amp;   \vdots  &amp; \ddots
+\end{pmatrix}
+\]</p>
+<p>with \(\cdot\) being the dot product, the vector \(\pmb{v}\) is
+defined as:</p>
+<p>\[
+\begin{pmatrix}
+a \cdot f \\
+b \cdot f \\
+c \cdot f \\
+\vdots
+\end{pmatrix}
+\]</p>
+<p>and the vector \(\pmb{x}\) which is the vector of best estimates we are
+looking for, defined as:</p>
+<p>\[
+\begin{pmatrix}
+A \\
+B \\
+C \\
+\vdots
+\end{pmatrix}
+\]</p>
+<p>The residual \(r\) may then be computed as:
+\[ r =  f - A a - B b - C c - \dots \]</p>
+<div id="admonition-tip" class="admonition tip">
+<div class="admonition-title">
+<p>Tip</p>
+</div>
+<div>
+<p>In the previous section, the <em>basis images</em> were defined as such:</p>
+<pre><code class="language-java">	Number x_size = imageGetDimensionSize(src, 0)
+	Number y_size = imageGetDimensionSize(src, 1)
+
+	Image xxy := realImage(&quot;&quot;, 8, x_size, y_size)
+	xxy = icol * icol * irow / x_size / x_size / y_size
+	Image  yy := realImage(&quot;&quot;, 8, x_size, y_size)
+	yy  = irow * irow / y_size / y_size
+	Image yyy := realImage(&quot;&quot;, 8, x_size, y_size)
+	yyy = irow * irow * irow / y_size / y_size / y_size
+</code></pre>
+</div>
+</div>
+<div id="admonition-info" class="admonition info">
+<div class="admonition-title">
+<p>Info</p>
+</div>
+<div>
+<p>The dot product between two images is done in Digital Micrograph with
+the <code>dotProduct</code> function:</p>
+<pre><code class="language-java">dotProduct(img1, img2)
+</code></pre>
+</div>
+</div>
+<div id="admonition-info-1" class="admonition info">
+<div class="admonition-title">
+<p>Info</p>
+</div>
+<div>
+<p>The \( \mathbf{A} \pmb{x} = \pmb{v} \) matrix equation can be solved without
+computing the matrix inverse of \(\mathbf{A}\) (which is computionally intensive),
+using dedicated solver functions, such as 
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.solve.html"><code>numpy.linalg.solve</code></a>
+and <a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"><code>numpy.linalg.lstsq</code></a>
+for python.</p>
+<p>In Digital Micrograph, the corresponding solver function is <code>svDecomposition</code>,
+that is used as such:</p>
+<pre><code class="language-java">Image A := realImage(&quot;&quot;, 8, 3, 3)
+A[0, 0] = 1
+A[1, 0] = 2
+A[2, 0] = 3
+
+A[0, 1] = 4
+A[1, 1] = 5
+A[2, 1] = 6
+
+A[0, 2] = 7
+A[1, 2] = 8
+A[2, 2] = 9
+
+// This is a row vector, but a column vector would also work.
+// In any case, it will be interpreted as a column vector for
+// the purpose of svDecomposition
+Image b := realImage(&quot;&quot;, 8, 3, 1)
+b[0, 0] = 10
+b[1, 0] = 11
+b[2, 0] = 12
+
+// This return a row vector for programming reasons, but mathematically
+// it is a column vector.
+Image x := svDecomposition(A, b)
+showImage(x)
+</code></pre>
+<p>This script solves the following matrix equation:</p>
+<p>\[
+\begin{pmatrix}
+1 &amp; 2 &amp; 3 \
+4 &amp; 5 &amp; 6 \
+7 &amp; 8 &amp; 9
+\end{pmatrix}
+\pmb{x} =
+\begin{pmatrix}
+10 \
+11 \
+12
+\end{pmatrix}
+\]</p>
+</div>
+</div>
+<div id="admonition-warning" class="admonition warning">
+<div class="admonition-title">
+<p>Warning</p>
+</div>
+<div>
+<p>The name of the <code>svDecomposition</code> function is misleading. While the <em>Singular
+Value Decomposition</em> (SVD) may be used to write a solver to the
+\( \mathbf{A} \pmb{x} = \pmb{v} \) equation, it is a different procedure.</p>
+<p>You can learn more about the SVD with
+<a href="https://www.youtube.com/playlist?list=PLMrJAkhIeNNSVjnsviglFoY2nXildDCcv">Steve Brunton's <em>Singular Value Decomposition</em> series on Youtube</a>.</p>
+</div>
+</div>
+<div id="admonition-warning-1" class="admonition warning">
+<div class="admonition-title">
+<p>Warning</p>
+</div>
+<div>
+<p>The \( \mathbf{A} \) matrix is numerically ill-conditioned here.
+This means that the accuracy of the result strongly depends on both:</p>
+<ol>
+<li>The floating point type <em>precision</em> used (often <em>single</em> or <em>double</em> precision,
+respectively 4 and 8 bytes).</li>
+<li>The rounding errors of the floating point operations.</li>
+</ol>
+<p>In other words, for best precision, you should:</p>
+<ol>
+<li>Use double-precision floating points (8 bytes, or <code>Real8</code> in Digital Micrograph).</li>
+<li>Not use matrix inversion on \( \mathbf{A} \) and use instead a proper linear
+matrix equation solver such as <code>svDecomposition</code> in Digital Micrograph.</li>
+<li>Try to normalize your \(a\), \(b\), ... functions in case your result
+are unsatisfactory, since big discrepancies in the relative amplitude of your
+functions may lead to rounding errors (this was already done for you in this
+practical)</li>
+</ol>
+</div>
+</div>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<p>Lawson, Charles L.; Hanson Richard J. (1995). <em>Solving Least Square Problems</em>, SIAM</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../4-removing-polynomials/part_2.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../4-removing-polynomials/solution_part2.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../4-removing-polynomials/part_2.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../4-removing-polynomials/solution_part2.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../editor.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mode-rust.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../theme-dawn.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../theme-tomorrow_night.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../mermaid.min.js"></script>
+        <script type="text/javascript" src="../mermaid-init.js"></script>
+
+
+    </body>
+</html>

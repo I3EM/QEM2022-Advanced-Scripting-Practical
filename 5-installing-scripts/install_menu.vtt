@@ -1,0 +1,23 @@
+WEBVTT
+
+00:01.186 --> 00:05.225
+Make sure your script is open in Digital Micrograph.
+
+00:05.495 --> 00:08.226
+Click on your script, to make sure it is selected.
+
+00:08.564 --> 00:14.949
+Go to `File > Install Script...`.
+
+00:15.219 --> 00:36.016
+Name your command and its menu in the text fields.
+
+00:36.364 --> 00:44.354
+Select either `Install for the current user only` or
+`Install for all users`, depending on your needs.
+
+00:44.856 --> 00:47.861
+Click `Ok`.
+
+00:48.473 --> 00:58.968
+You may now launch your script from the menu

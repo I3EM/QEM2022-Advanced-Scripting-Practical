@@ -1,0 +1,1 @@
+Image pseudo_spectrum := get_image_tag(src, "Pseudospectrum")

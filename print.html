@@ -1,0 +1,2324 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>QEM Pratical: Advanced Script Programming for Image Processing in Digital Micrograph</title>
+        <meta name="robots" content="noindex" />
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="mdbook-admonish.css">
+        <link rel="stylesheet" href="mermaid.css">
+
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="0-introduction/introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="0-introduction/using-this-document.html">How to Use this Document</a></li><li class="chapter-item expanded affix "><a href="0-introduction/mystery_processing.html">Overview of the Mystery Processing</a></li><li class="chapter-item expanded "><a href="1-extracting-pseudospectrum/recap.html"><strong aria-hidden="true">1.</strong> Reverting the Transfer Function</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="1-extracting-pseudospectrum/pseudospectrum.html"><strong aria-hidden="true">1.1.</strong> Extracting the Pseudospectrum</a></li><li class="chapter-item expanded "><a href="2-averaging-maximas/maxima.html"><strong aria-hidden="true">1.2.</strong> Averaging Maxima Positions</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="2-averaging-maximas/peak_finding.html"><strong aria-hidden="true">1.2.1.</strong> Suggested Approach</a></li><li class="chapter-item expanded "><a href="2-averaging-maximas/solution_part1b.html"><strong aria-hidden="true">1.2.2.</strong> Proposed Implementation</a></li></ol></li><li class="chapter-item expanded "><a href="3-reverting-transfert-function/mtf.html"><strong aria-hidden="true">1.3.</strong> Performing the Inversion</a></li></ol></li><li class="chapter-item expanded "><a href="4-removing-polynomials/part_2.html"><strong aria-hidden="true">2.</strong> Removing the Distortion</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="4-removing-polynomials/lls.html"><strong aria-hidden="true">2.1.</strong> Suggested Approach</a></li><li class="chapter-item expanded "><a href="4-removing-polynomials/solution_part2.html"><strong aria-hidden="true">2.2.</strong> Proposed Implementation</a></li></ol></li><li class="chapter-item expanded "><a href="5-installing-scripts/part_3.html"><strong aria-hidden="true">3.</strong> Reconstructing the Image</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="6-appendices/references.html">To Go Further</a></li><li class="chapter-item expanded affix "><a href="6-appendices/mystery_processing_complete.html">Mystery Processing: Complete Script</a></li><li class="chapter-item expanded affix "><a href="6-appendices/proposed_solution_complete.html">Proposed Solution: Complete Script</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">QEM Pratical: Advanced Script Programming for Image Processing in Digital Micrograph</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<p>In this practical, we will be provided a processed mystery image and the code
+that produced it. Our task will be to invert every processing in order to
+uncover the hidden image, step-by-step.</p>
+<p>By doing this, you will hopefully learn how to use DM Scripting to build a
+scientific image processing pipeline, given that you know the mathematical
+deformations the image has undergone. Of course, this practical can only cover
+but a tiny part of the numerical processing field. Researching for existing
+methods or algorithmic bricks and/or designing single problem in the world, so you may want to apply</p>
+<div id="admonition-note" class="admonition note">
+<div class="admonition-title">
+<p>Note</p>
+</div>
+<div>
+<p>In case you get stuck, if you are short on time, or just want to look at a working
+implementation of the algorithms we will program in this pratical, for each task there
+will be a <em>Proposed Implementation</em> subsection.</p>
+<p>We invite you to make your own attempts before consulting them.</p>
+</div>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="how-to-use-this-document"><a class="header" href="#how-to-use-this-document">How to Use this Document</a></h1>
+<h2 id="navigation"><a class="header" href="#navigation">Navigation</a></h2>
+<p>There are several methods for navigating through the chapters of this book.</p>
+<p>The <strong>sidebar</strong> on the left provides a list of all chapters.
+Clicking on any of the chapter titles will load that page.</p>
+<p>The sidebar may not automatically appear if the window is too narrow, particularly on mobile displays.
+In that situation, the menu icon (three horizontal bars) at the top-left of the page can be pressed to open and close the sidebar.</p>
+<p>The <strong>arrow buttons</strong> at the bottom of the page can be used to navigate to the previous or the next chapter.</p>
+<p>The <strong>left and right arrow keys</strong> on the keyboard can be used to navigate to the previous or the next chapter.</p>
+<h2 id="top-menu-bar"><a class="header" href="#top-menu-bar">Top menu bar</a></h2>
+<p>The menu bar at the top of the page provides some icons for interacting with the book.</p>
+<table><thead><tr><th>Icon</th><th>Description</th></tr></thead><tbody>
+<tr><td><i class="fa fa-bars"></i></td><td>Opens and closes the chapter listing sidebar.</td></tr>
+<tr><td><i class="fa fa-paint-brush"></i></td><td>Opens a picker to choose a different color theme.</td></tr>
+<tr><td><i class="fa fa-search"></i></td><td>Opens a search bar for searching within the book.</td></tr>
+<tr><td><i class="fa fa-print"></i></td><td>Instructs the web browser to print the entire book.</td></tr>
+</tbody></table>
+<!-- | <i class="fa fa-github"></i> | Opens a link to the website that hosts the source code of the book. |
+| <i class="fa fa-edit"></i> | Opens a page to directly edit the source of the page you are currently reading. | -->
+<p>Tapping the menu bar will scroll the page to the top.</p>
+<h2 id="search"><a class="header" href="#search">Search</a></h2>
+<p>This book has a built-in search system.
+Pressing the search icon (<i class="fa fa-search"></i>) in the menu bar, or pressing the <code>S</code>
+key on the keyboard will open an input box for entering search terms.
+Typing some terms will show matching chapters and sections in real time.</p>
+<p>Clicking any of the results will jump to that section.
+The up and down arrow keys can be used to navigate the results, and enter will open the highlighted section.</p>
+<p>After loading a search result, the matching search terms will be highlighted in the text.
+Clicking a highlighted word or pressing the <code>Esc</code> key will remove the highlighting.</p>
+<h2 id="code-blocks"><a class="header" href="#code-blocks">Code blocks</a></h2>
+<p>The code samples provided in this book may be copied into your local clipboard by a press on the
+<i class="fa fa-copy"></i> icon, to allow pasting into another application.</p>
+<p>Here's an example:</p>
+<pre><code class="language-java">result(&quot;Hello, World!&quot;)
+</code></pre>
+<h2 id="admonitions"><a class="header" href="#admonitions">Admonitions</a></h2>
+<p>This document is interspersed with information inserts that look like this:</p>
+<div id="admonition-note" class="admonition note">
+<div class="admonition-title">
+<p>Note</p>
+</div>
+<div>
+<p>This is an admonition.</p>
+</div>
+</div>
+<p>Some are folded, and require a click to open them:</p>
+<details id="admonition-note-1" class="admonition note">
+<summary class="admonition-title">
+<p>Note</p>
+</summary>
+<div>
+<p>This is a collapsible admonition.</p>
+</div>
+</details>
+<p>These will typically be used to hide the answers to the problems we will be
+provided:</p>
+<details id="admonition-solution" class="admonition example">
+<summary class="admonition-title">
+<p>Solution</p>
+</summary>
+<div>
+<p>This is a hidden solution for your problem. We invite you to make your own
+attempts before consulting it.</p>
+</div>
+</details>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="overview-of-the-mystery-processing"><a class="header" href="#overview-of-the-mystery-processing">Overview of the Mystery Processing</a></h1>
+<p>Omitting the function implementations, the processing that produced
+our encoded image is as follows:</p>
+<pre><code class="language-java">Image src := getFrontImage()
+
+Image mystery_swapped := mystery_swap(src)
+
+Image with_polynomial := add_random_polynomial(mystery_swapped)
+
+Image maximum_positions := round(random_image_with_min_dist(4, 10, 990, 50))
+Number s = round( mean(maximum_positions) / 8 )
+Image pseudo_spectrum := pseudospectrum_with_maximums_at(1000, maximum_positions)
+
+Image output := apply_inverse_gaussian_mtf(with_polynomial, s)
+
+add_image_tag(output, &quot;Pseudospectrum&quot;, pseudo_spectrum)
+
+showImage(output)
+</code></pre>
+<p>This gives us the big picture of what is happening here, that may be
+summarized by the following diagram:</p>
+<pre class="mermaid">
+graph TD
+    classDef important fill:firebrick
+    classDef starts fill:indianred
+    classDef focus fill:forestgreen
+    classDef done fill:dimgrey
+    classDef obj fill:chocolate
+    subgraph Mystery Processing
+        Start([Start]):::starts--&gt;mystery_image[/Mystery Image/]:::important
+        mystery_image--&gt;swap[Mystery Swap]
+        swap--&gt;polynomial[Addition of Random Polynomial Background]
+        polynomial--&gt;mtf[Application of a Transfert Function]
+        mtf--&gt;tag[Attach Pseudospectrum as Metadata]
+        tag--&gt;coded_image[/Encoded Image/]:::important
+        coded_image--&gt;End([End]):::starts
+        Start--&gt;rand_vec[Random Numbers Generation]
+        rand_vec--&gt;maxs[/Random Numbers/]
+        maxs--&gt;mean[Averaging]
+        mean--&gt;mtf
+        maxs--&gt;gspec[Generate a Pseudospectrum with Input Maximums]
+        gspec--&gt;pspec[/Pseudospectrum/]
+        pspec--&gt;tag
+    end
+    linkStyle 1 stroke:lime, color:lime
+    linkStyle 2 stroke:lime, color:lime
+    linkStyle 3 stroke:lime, color:lime
+    linkStyle 4 stroke:lime, color:lime
+    linkStyle 5 stroke:lime, color:lime
+</pre>
+<p>If we focus on the left (lime) part of this diagram, we can see that our <em>mystery image</em>
+undergoes 4 processings:</p>
+<ol>
+<li>A so-called &quot;Mystery Swap&quot;.</li>
+<li>The addition of some random polynomial.</li>
+<li>The application of a transfert function, <em>with an external parameter</em>.</li>
+<li>A metadata update, that do not change the image content.</li>
+</ol>
+<p>Which gives us our <em>encoded image</em>. To revert back to the original image,
+we will have to go through the following three steps, which will form
+the different parts of the practical:</p>
+<ol>
+<li>Revert the transfert function.</li>
+<li>Remove the polynomial.</li>
+<li>Swap back the image.</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="reverting-the-transfer-function"><a class="header" href="#reverting-the-transfer-function">Reverting the Transfer Function</a></h1>
+<pre class="mermaid">
+graph TD
+    classDef important fill:firebrick
+    classDef starts fill:indianred
+    classDef focus fill:forestgreen
+    classDef done fill:dimgrey
+    classDef obj fill:chocolate
+    subgraph Mystery Processing
+        Start([Start]):::starts--&gt;mystery_image[/Mystery Image/]:::important
+        mystery_image--&gt;swap[Mystery Swap]
+        swap--&gt;polynomial[Addition of Random Polynomial Background]
+        polynomial--&gt;mtf[Application of a Transfert Function]
+        mtf--&gt;tag[Attach Pseudospectrum as Metadata]
+        tag--&gt;coded_image[/Encoded Image/]:::important
+        coded_image--&gt;End([End]):::starts
+        Start--&gt;rand_vec[Random Numbers Generation]
+        rand_vec--&gt;maxs[/Random Numbers/]
+        maxs--&gt;mean[Averaging]
+        mean--&gt;mtf
+        maxs--&gt;gspec[Generate a Pseudospectrum with Input Maximums]
+        gspec--&gt;pspec[/Pseudospectrum/]
+        pspec--&gt;tag
+    end
+    class mtf focus
+    class tag done
+</pre>
+<p>Let's start with the inversion of the transfer function. The corresponding
+code excerpt is as follows:</p>
+<pre><code class="language-java">Image output := apply_inverse_gaussian_mtf(with_polynomial, s)
+</code></pre>
+<p>Were <code>with_polynomial</code> is the input image. We see that there is a
+parameter <code>s</code> that comes into play. In order to revert the function,
+we will need to retrieve its value. If we look at its definition:</p>
+<pre><code class="language-java">Image maximum_positions := round(random_image_with_min_dist(4, 10, 990, 50))
+Number s = round( mean(maximum_positions) / 8 )
+</code></pre>
+<pre class="mermaid">
+graph TD
+    classDef important fill:firebrick
+    classDef starts fill:indianred
+    classDef focus fill:forestgreen
+    classDef done fill:dimgrey
+    classDef obj fill:chocolate
+    subgraph Mystery Processing
+        Start([Start]):::starts--&gt;mystery_image[/Mystery Image/]:::important
+        mystery_image--&gt;swap[Mystery Swap]
+        swap--&gt;polynomial[Addition of Random Polynomial Background]
+        polynomial--&gt;mtf[Application of a Transfert Function]
+        mtf--&gt;tag[Attach Pseudospectrum as Metadata]
+        tag--&gt;coded_image[/Encoded Image/]:::important
+        coded_image--&gt;End([End]):::starts
+        Start--&gt;rand_vec[Random Numbers Generation]
+        rand_vec--&gt;maxs[/Random Numbers/]
+        maxs--&gt;mean[Averaging]
+        mean--&gt;mtf
+        maxs--&gt;gspec[Generate a Pseudospectrum with Input Maximums]
+        gspec--&gt;pspec[/Pseudospectrum/]
+        pspec--&gt;tag
+    end
+    class mtf focus
+    class tag done
+    linkStyle 8 stroke:lime, color:lime
+    linkStyle 9 stroke:lime, color:lime
+    linkStyle 10 stroke:lime, color:lime
+</pre>
+<p>We see that <code>s</code> comes from a random source, and is therefore an unknown.
+From there, we have 2 options:</p>
+<ol>
+<li>Either the image exhibits some distinctive feature we can extract <code>s</code> from.</li>
+<li>Or <code>s</code> is measurable with a different detector or microscope configuration,
+that will produce a different image we can work with.</li>
+</ol>
+<p>In our case, it is not clear if 1 is true; however, we <em>do</em> have another image where
+<code>s</code> that may be easier to work with: the Pseudospectrum. Indeed, if we look at
+its definition:</p>
+<pre><code class="language-java">Image pseudo_spectrum := pseudospectrum_with_maximums_at(1000, maximum_positions)
+</code></pre>
+<pre class="mermaid">
+graph TD
+    classDef important fill:firebrick
+    classDef starts fill:indianred
+    classDef focus fill:forestgreen
+    classDef done fill:dimgrey
+    classDef obj fill:chocolate
+    subgraph Mystery Processing
+        Start([Start]):::starts--&gt;mystery_image[/Mystery Image/]:::important
+        mystery_image--&gt;swap[Mystery Swap]
+        swap--&gt;polynomial[Addition of Random Polynomial Background]
+        polynomial--&gt;mtf[Application of a Transfert Function]
+        mtf--&gt;tag[Attach Pseudospectrum as Metadata]
+        tag--&gt;coded_image[/Encoded Image/]:::important
+        coded_image--&gt;End([End]):::starts
+        Start--&gt;rand_vec[Random Numbers Generation]
+        rand_vec--&gt;maxs[/Random Numbers/]
+        maxs--&gt;mean[Averaging]
+        mean--&gt;mtf
+        maxs--&gt;gspec[Generate a Pseudospectrum with Input Maximums]
+        gspec--&gt;pspec[/Pseudospectrum/]
+        pspec--&gt;tag
+    end
+    class mtf focus
+    class tag done
+    linkStyle 8 stroke:lime, color:lime
+    linkStyle 11 stroke:lime, color:lime
+    linkStyle 12 stroke:lime, color:lime
+</pre>
+<p>We see that <code>s</code> is actually the the arithmetic mean of the Pseudospectrum
+maximums.</p>
+<p>In order to revert  our transfer function, we must then perform the 3 following
+steps:</p>
+<ol>
+<li>Extract the Pseudospectrum.</li>
+<li>Find its local maxima locations and average them to get the <code>s</code> parameter.</li>
+<li>Knowing <code>s</code>, perform the transfert function inversion on the <em>encoded image</em>.</li>
+</ol>
+<details id="admonition-the--operator" class="admonition info">
+<summary class="admonition-title">
+<p>The <code>:=</code> operator</p>
+</summary>
+<div>
+<p>Working with images in Digital Micrograph may be slightly disturbing due to
+the fact that several <code>Image</code> variables may reference a same image in
+memory (this also applies to variants, such as <code>ComplexImage</code>, <code>RGBImage</code>...).
+An image exists as long as there is an <code>Image</code> variable referencing it.</p>
+<p>Therefore, here is a quick refresher on how the way assignments and functions
+interacts with images.</p>
+<p>Digital Micrograph supports to kind of assignments:</p>
+<ol>
+<li><em>Copy assignment</em> <code>=</code>. You may use this operator in two contexts:
+<ol>
+<li><em>Copy declaration</em>, like in <code>Image img1 = img2</code>.
+In this case you create a new <code>img1</code> as a clone of the image <code>img2</code>.
+You can then modify <code>img1</code> without changing <code>img2</code>.</li>
+<li><em>In-place modification assignment</em>, such as in <code>img1 = img2 + img3</code>.
+Here, a temporary image is created for storing the result of <code>img2 + img3</code>, and
+then its content is converted to the intern type of <code>img1</code> and copied into its
+already allocated storage (for example, if <code>img1</code> is a <code>Real4</code> image and
+<code>img2 + img3</code> is a <code>Real8</code>, the result will be converted to <code>Real4</code>).
+This is useful if you need to update the content of an image.</li>
+</ol>
+</li>
+<li>Reference assignment <code>:=</code>. You may use this operator in four contexts:
+<ol>
+<li><em>Assignment of temporaries</em>, like in <code>Image img1 := img2 + img3</code>.
+In this case you assign the temporary image storing the result of the
+<code>img2 + img3</code> operation to the name <code>img1</code>, so you can use it again.</li>
+<li><em>Reasignment of temporaries</em>, like in <code>img1 := img2 + img3</code>. This case
+is similar to the previous one, except that the reference previously
+stored in <code>img1</code> is discarded (if it was the last one, then the image is
+destroyed).</li>
+<li><em>Reference declaration</em>, like in <code>Image img1 := img2</code>.
+In this case you declare <code>img1</code> as an alias of the image <code>img2</code>.
+Then, if you modify <code>img1</code>, you change <code>img2</code>.</li>
+<li><em>Reference reasignment</em>, such as in <code>img1 := img2</code>.
+Same as the last one except that the reference previously
+stored in <code>img1</code> is discarded.</li>
+</ol>
+</li>
+</ol>
+<p>Please note that expressions like <code>Image img1 = img2 + img3</code> are technically allowed but are
+lesser version of the equivalent <code>Image img1 := img2 + img3</code> because of the extra copy.</p>
+<p>In the case of functions, <code>Image</code> arguments are taken as if using the <code>:=</code> operator.
+This means that:</p>
+<pre><code class="language-java">void example(Image img2) {}
+
+Image img1
+example(img1)
+</code></pre>
+<p>is virtually equivalent to:</p>
+<pre><code class="language-java">Image img1
+Image img2 := img1
+</code></pre>
+</div>
+</details><div style="break-before: page; page-break-before: always;"></div><h1 id="extracting-the-pseudospectrum"><a class="header" href="#extracting-the-pseudospectrum">Extracting the Pseudospectrum</a></h1>
+<pre class="mermaid">
+graph TD
+    classDef important fill:firebrick
+    classDef starts fill:indianred
+    classDef focus fill:forestgreen
+    classDef done fill:dimgrey
+    classDef obj fill:chocolate
+    subgraph Mystery Processing
+        Start([Start]):::starts--&gt;mystery_image[/Mystery Image/]:::important
+        mystery_image--&gt;swap[Mystery Swap]
+        swap--&gt;polynomial[Addition of Random Polynomial Background]
+        polynomial--&gt;mtf[Application of a Transfert Function]
+        mtf--&gt;tag[Attach Pseudospectrum as Metadata]
+        tag--&gt;coded_image[/Encoded Image/]:::important
+        coded_image--&gt;End([End]):::starts
+        Start--&gt;rand_vec[Random Numbers Generation]
+        rand_vec--&gt;maxs[/Random Numbers/]
+        maxs--&gt;mean[Averaging]
+        mean--&gt;mtf
+        maxs--&gt;gspec[Generate a Pseudospectrum with Input Maximums]
+        gspec--&gt;pspec[/Pseudospectrum/]
+        pspec--&gt;tag
+    end
+    class tag focus
+    class pspec obj
+</pre>
+<p>We have just seen that before even starting to process our encoded image,
+we had to extract another &quot;Pseudospectrum&quot; image from its metadata. To know
+how we should proceed, let's take a look at the code that stored that
+Pseudospectrum:</p>
+<pre><code class="language-java">add_image_tag(output, &quot;Pseudospectrum&quot;, pseudo_spectrum)
+</code></pre>
+<p>The <code>add_image_tag</code> function is defined as follows:</p>
+<pre><code class="language-java">// Stores the `img_tag` 1D image as a tag of the `img` image under the `tag` path,
+// alongside with its size.
+void add_image_tag(Image img, String tag, Image img_tag) {
+	TagGroup tags = imageGetTagGroup(img)
+
+	tagGroupSetTagAsArray(tags, tag, img_tag)
+	tagGroupSetTagAsNumber(tags, tag + &quot; Size&quot;, imageGetDimensionSize(img_tag, 0))
+}
+</code></pre>
+<p>We can see here that the <code>img</code> metadata is manipulated through a <code>TagGroup</code>
+that we can obtain by calling <code>imageGetTagGroup</code> on the image. Then,
+the actual metadata may be set by calling the corresponding <code>tagGroupSetTagAs*</code>
+on the <code>TagGroup</code> (namely <code>tagGroupSetTagAsNumber</code> and <code>tagGroupSetTagAsImage</code>
+in our case).</p>
+<div id="admonition-imagegetdimensionsizeimg-n" class="admonition info">
+<div class="admonition-title">
+<p><code>imageGetDimensionSize(img, n)</code></p>
+</div>
+<div>
+<p>Returns the size of the <code>n</code>-th dimension of the image <code>img</code>.</p>
+</div>
+</div>
+<h2 id="getting-back-metadata"><a class="header" href="#getting-back-metadata">Getting Back Metadata</a></h2>
+<p>If we want to get that metadata back, we will need the <code>tagGroupGetTagAs*</code> family
+of functions, specifically <code>tagGroupGetTagAsNumber</code> and <code>tagGroupGetTagAsImage</code>.
+<code>tagGroupGetTagAsNumber</code>, for example, is used as such:</p>
+<pre><code class="language-java">Number n
+tagGroupGetTagAsNumber(tags, &quot;Tag Path&quot;, n)
+result(&quot;Read number &quot; + n + &quot;\n&quot;)
+</code></pre>
+<p>As those functions may fail (the tag path may not exist, the data type
+may be incorrect...), they signal succes by returning <code>1</code> and failure by
+returning <code>0</code>. This behaviour may be used as such:</p>
+<pre><code class="language-java">Number n
+if (tagGroupGetTagAsNumber(tags, &quot;Tag Path&quot;, n)) {
+    result(&quot;Succefully read number &quot; + n + &quot;\n&quot;)
+} else {
+    result(&quot;The tag 'Tag Path' does not exist on this image!\n&quot;)
+}
+</code></pre>
+<p>In the case of <code>tagGroupGetTagAsArray</code>, the story become a little
+more complicated. <code>tagGroupGetTagAsArray</code> will only write data to
+an already allocated image. Therefore, one need to know in advance
+the size of the image, so they can allocate the right amount. That is
+why a common pattern is to store the image size in an other number
+tag. When the image <code>size</code> is known, <code>tagGroupGetTagAsArray</code> is
+used as such:</p>
+<pre><code class="language-java">Image img_tag := RealImage(&quot;&quot;, 8, size)
+tagGroupGetTagAsArray(tags, &quot;Tag Path&quot;, img_tag)
+</code></pre>
+<h2 id="getting-back-the-pseudospectrum"><a class="header" href="#getting-back-the-pseudospectrum">Getting Back the Pseudospectrum</a></h2>
+<p>Putting thoses functions together, we can easily build an extraction
+function for us to use:</p>
+<pre><code class="language-java">Image get_image_tag(Image img, String tag) {
+	TagGroup tags = imageGetTagGroup(img)
+
+	Number size
+	tagGroupGetTagAsNumber(tags, tag + &quot; Size&quot;, size)
+
+	Image img_tag := realImage(&quot;&quot;, 8, size)
+	tagGroupGetTagAsArray(tags, tag, img_tag)
+
+	return img_tag
+}
+</code></pre>
+<p>The complete script should then look like this:</p>
+<pre><code class="language-java">Image get_image_tag(Image img, String tag) {
+	TagGroup tags = imageGetTagGroup(img)
+
+	Number size
+	tagGroupGetTagAsNumber(tags, tag + &quot; Size&quot;, size)
+
+	Image img_tag := realImage(&quot;&quot;, 8, size)
+	tagGroupGetTagAsArray(tags, tag, img_tag)
+
+	return img_tag
+}
+
+
+Image src := getFrontImage()
+
+Image pseudo_spectrum := get_image_tag(src, &quot;Pseudospectrum&quot;)
+
+showImage(pseudo_spectrum)
+</code></pre>
+<!-- ~~~admonish example title="Mystery Processing Recap" collapsible=true
+```java
+Image src := getFrontImage()
+
+Image mystery_swapped := mystery_swap(src)
+
+Image with_polynomial := add_random_polynomial(mystery_swapped)
+
+Image maximum_positions := round(random_image_with_min_dist(4, 10, 990, 50))
+Number s = round( mean(maximum_positions) / 8 )
+Image pseudo_spectrum := pseudospectrum_with_maximums_at(1000, maximum_positions)
+
+Image output := apply_inverse_gaussian_mtf(with_polynomial, s)
+
+add_image_tag(output, "Pseudospectrum", pseudo_spectrum)
+
+showImage(output)
+```
+~~~ -->
+<div style="break-before: page; page-break-before: always;"></div><h1 id="averaging-maxima-positions"><a class="header" href="#averaging-maxima-positions">Averaging Maxima Positions</a></h1>
+<div id="admonition-reflection-time" class="admonition question">
+<div class="admonition-title">
+<p>Reflection Time</p>
+</div>
+<div>
+<p>Now, we will discuss the problem together as a class, and see how we can solve it.</p>
+</div>
+</div>
+<pre class="mermaid">
+graph TD
+    classDef important fill:firebrick
+    classDef starts fill:indianred
+    classDef focus fill:forestgreen
+    classDef done fill:dimgrey
+    classDef obj fill:chocolate
+    subgraph Mystery Processing
+        Start([Start]):::starts--&gt;mystery_image[/Mystery Image/]:::important
+        mystery_image--&gt;swap[Mystery Swap]
+        swap--&gt;polynomial[Addition of Random Polynomial Background]
+        polynomial--&gt;mtf[Application of a Transfert Function]
+        mtf--&gt;tag[Attach Pseudospectrum as Metadata]
+        tag--&gt;coded_image[/Encoded Image/]:::important
+        coded_image--&gt;End([End]):::starts
+        Start--&gt;rand_vec[Random Numbers Generation]
+        rand_vec--&gt;maxs[/Random Numbers/]
+        maxs--&gt;mean[Averaging]
+        mean--&gt;mtf
+        maxs--&gt;gspec[Generate a Pseudospectrum with Input Maximums]
+        gspec--&gt;pspec[/Pseudospectrum/]
+        pspec--&gt;tag
+    end
+    class gspec focus
+    class tag,pspec done
+    class maxs,mean obj
+</pre>
+<p>Now that we have our pseudospectrum, it is time to actually extract the
+<code>s</code> value we are looking for. If we look at the code:</p>
+<pre><code class="language-java">Image maximum_positions := round(random_image_with_min_dist(4, 10, 990, 50))
+Number s = round( mean(maximum_positions) / 8 )
+Image pseudo_spectrum := pseudospectrum_with_maximums_at(1000, maximum_positions)
+</code></pre>
+<p>We can see that the <code>s</code> value is the integer quotient of the Euclidian
+division by 8 of the arithetic mean of the positions of the pseudospectrum
+maximums.</p>
+<p>Therefore, we need to locate the pseudospectrum maximums, perform
+the arithmetic mean, and then the Euclidian division.</p>
+<p>The code excerpt above should be sufficient to define the problem, but
+in case implementation details are desired, here they are:</p>
+<details id="admonition-functions-details" class="admonition info">
+<summary class="admonition-title">
+<p>Functions Details</p>
+</summary>
+<div>
+<pre><code class="language-java">// Returns a random number in the [min, max] interval, with a uniform
+// distribution.
+Number random_uniform(Number min, Number max) {
+	return (max - min) * random() + min
+}
+// Returns a list (as a 1D image) of random numbers in the [min, max]
+// interval, with a uniform distribution.
+Image random_uniform_image(Number size, Number min, Number max) {
+	Image img := realImage(&quot;&quot;, 8, size)
+	
+	for (Number i = 0 ; i &lt; size ; ++i) {
+		img[i, 0] = random_uniform(min, max)
+	}
+	
+	return img
+}
+
+// Returns 1 if the distance between any two values of the input list `img`
+// is less than `min_size`
+Number has_close_values(Image img, Number min_size) {
+	Number n = imageGetDimensionSize(img, 0)
+	for (Number i = 0 ; i &lt; n ; ++i) {
+		for (Number j = 0 ; j &lt; i ; ++j) {
+			if (abs(sum(img[i, 0]) - sum(img[j, 0])) &lt; min_size) {
+				return 1
+			}
+		}
+	}
+	return 0
+}
+
+// Sort the input list `img` in-place
+void bubble_sort(Image img) {
+	Number size = imageGetDimensionSize(img, 0)
+	Number is_unsorted = 1
+	while (is_unsorted) {
+		Number swapped_values = 0
+		for (Number i = 0 ; i &lt; size - 1 ; ++i) {
+			if (sum(img[i + 1, 0] &lt; img[i, 0])) {
+				Number temp = sum(img[i, 0])
+				img[i, 0] = img[i + 1, 0]
+				img[i + 1, 0] = temp
+				++swapped_values
+			}
+		}
+		is_unsorted = swapped_values
+	}
+}
+
+// Generate a list of random values in the [min, max] interval that are
+// guaranteed to be least distant by `min_dist` between each other
+Image random_image_with_min_dist(Number size, Number min, Number max, Number min_dist) {
+	Image out := random_uniform_image(size, min, max)
+
+	while (has_close_values(out, min_dist)) {
+		out := random_uniform_image(size, min, max)
+	}
+
+	bubble_sort(out)
+
+	return out
+}
+
+// Generate a polynomial 1D &quot;pseudospectrum&quot; of length `size` bearing
+// maximums at the specified `maximum_positions`
+Image pseudospectrum_with_maximums_at(Number size, Image maximum_positions) {
+	Image img := realImage(&quot;&quot;, 8, size)
+	Number peak_numbers = imageGetDimensionSize(maximum_positions, 0)
+	
+	img = icol/size * (icol - size)/size
+	for (Number i = 0 ; i &lt; peak_numbers - 1 ; ++i) {
+		img *= (icol - sum(maximum_positions[i, 0]))/size
+		Number middle = (sum(maximum_positions[i, 0]) + sum(maximum_positions[i + 1, 0])) / 2
+		img *= (icol - middle)/size
+	}
+	img *= (icol - sum(maximum_positions[peak_numbers - 1, 0]))/size
+		
+	for (Number i = 1 ; i &lt; size ; ++i) {
+		img[i, 0] += img[i - 1, 0]
+	}
+	
+	return img
+}
+</code></pre>
+</div>
+</details><div style="break-before: page; page-break-before: always;"></div><h1 id="suggested-approach-averaging-maxima-positions"><a class="header" href="#suggested-approach-averaging-maxima-positions">Suggested Approach: Averaging Maxima Positions</a></h1>
+<h2 id="peak-finding"><a class="header" href="#peak-finding">Peak Finding</a></h2>
+<p>Out of the many possibilities for retrieving the local maximums of a 1D image,
+the simplest is probably to rely on the fact that, for a discrete function
+\(u_n\) where \(n\) is an integer, the list of local maximums is defined by:
+\[\{ n \in \mathbb{N} | u_{n - 1} \le u_n \text{ and } u_{n - 1} \le u_n \}\]</p>
+<div id="admonition-warning" class="admonition warning">
+<div class="admonition-title">
+<p>Warning</p>
+</div>
+<div>
+<p>This method may not work well in the presence of noise. In that case, you
+can try to filter your input to get cleaner result. In our case, this is not 
+necessary.</p>
+</div>
+</div>
+<h2 id="cumulative-averaging"><a class="header" href="#cumulative-averaging">Cumulative Averaging</a></h2>
+<p>Let \(u_i\) be a finite sequence of \(n\) values to be averaged, with
+\(n, i \in \mathbb{N}, i &lt; n\).</p>
+<p>The mean \(\overline{u}\) is defined as:
+\[\overline{u} = \frac{1}{n} \sum_{i=0}^{n-1} u_i\]</p>
+<p>While one could calculate a mean by computing this simple
+and efficient sum, it is sometime more convenient to use
+the cumulative mean \(\overline{u}_i\):
+\[
+\begin{aligned}
+\overline{u}_0       &amp; = u_0 \\
+\overline{u}_{i+1}   &amp; = \overline{u}_i + \frac{u_{i+1} - \overline{u}_i}{i+1}\\
+\overline{u}          &amp; = \overline{u}_{n}
+\end{aligned}
+\]</p>
+<p>With this last algorithm, you can compute the average as you get new
+values so you do not need to store them.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="averaging-maxima-proposed-implementation"><a class="header" href="#averaging-maxima-proposed-implementation">Averaging Maxima: Proposed Implementation</a></h1>
+<div id="admonition-warning" class="admonition warning">
+<div class="admonition-title">
+<p>Warning</p>
+</div>
+<div>
+<p>The following is a solution to the problem.
+We invite you to make your own attempts before consulting it.</p>
+</div>
+</div>
+<details id="admonition-maxima-positions-averaging-solution" class="admonition example">
+<summary class="admonition-title">
+<p>Maxima-positions averaging solution</p>
+</summary>
+<div>
+<pre><code class="language-java">Number mean_maximum_positions(Image img) {
+	Number size = imageGetDimensionSize(img, 0)
+
+	Number mean = 0
+	Number maximums_number = 0
+
+	for (Number i = 1 ; i &lt; size - 1 ; ++i) {
+		if (sum(img[i - 1, 0]) &lt;= sum(img[i, 0]) &amp;&amp; \
+			sum(img[i + 1, 0]) &lt;= sum(img[i, 0])) {
+			++maximums_number
+			mean += (i - mean)/maximums_number
+			++i
+		}
+	}
+
+	return mean
+}
+</code></pre>
+</div>
+</details>
+<details id="admonition-complete-current-solution" class="admonition example">
+<summary class="admonition-title">
+<p>Complete current solution</p>
+</summary>
+<div>
+<pre><code class="language-java">Image get_image_tag(Image img, String tag) {
+	TagGroup tags = imageGetTagGroup(img)
+
+	Number size
+	tagGroupGetTagAsNumber(tags, tag + &quot; Size&quot;, size)
+
+	Image img_tag := realImage(&quot;&quot;, 8, size)
+	tagGroupGetTagAsArray(tags, tag, img_tag)
+
+	return img_tag
+}
+
+Number mean_maximum_positions(Image img) {
+	Number size = imageGetDimensionSize(img, 0)
+
+	Number mean = 0
+	Number maximums_number = 0
+
+	for (Number i = 1 ; i &lt; size - 1 ; ++i) {
+		if (sum(img[i - 1, 0]) &lt;= sum(img[i, 0]) &amp;&amp; \
+			sum(img[i + 1, 0]) &lt;= sum(img[i, 0])) {
+			++maximums_number
+			mean += (i - mean)/maximums_number
+			++i
+		}
+	}
+
+	return mean
+}
+
+Image src := getFrontImage()
+
+Image pseudo_spectrum := get_image_tag(src, &quot;Pseudospectrum&quot;)
+
+Number mean = mean_maximum_positions(pseudo_spectrum)
+Number s = round( mean / 8 )
+
+result(s + &quot;\n&quot;)
+</code></pre>
+</div>
+</details><div style="break-before: page; page-break-before: always;"></div><h1 id="reverting-the-transfer-function-1"><a class="header" href="#reverting-the-transfer-function-1">Reverting the Transfer Function</a></h1>
+<pre class="mermaid">
+graph TD
+    classDef important fill:firebrick
+    classDef starts fill:indianred
+    classDef focus fill:forestgreen
+    classDef done fill:dimgrey
+    classDef obj fill:chocolate
+    subgraph Mystery Processing
+        Start([Start]):::starts--&gt;mystery_image[/Mystery Image/]:::important
+        mystery_image--&gt;swap[Mystery Swap]
+        swap--&gt;polynomial[Addition of Random Polynomial Background]
+        polynomial--&gt;mtf[Application of a Transfert Function]
+        mtf--&gt;tag[Attach Pseudospectrum as Metadata]
+        tag--&gt;coded_image[/Encoded Image/]:::important
+        coded_image--&gt;End([End]):::starts
+        Start--&gt;rand_vec[Random Numbers Generation]
+        rand_vec--&gt;maxs[/Random Numbers/]
+        maxs--&gt;mean[Averaging]
+        mean--&gt;mtf
+        maxs--&gt;gspec[Generate a Pseudospectrum with Input Maximums]
+        gspec--&gt;pspec[/Pseudospectrum/]
+        pspec--&gt;tag
+    end
+    class mtf focus
+    class tag,pspec,gspec,maxs,rand,mean,rand_vec done
+</pre>
+<p>Once we have got the <code>s</code> parameter we were looking for, we can now
+invert the transfert function. The transfert function code is as follows:</p>
+<pre><code class="language-java">Image output := apply_inverse_gaussian_mtf(with_polynomial, s)
+</code></pre>
+<p>Where <code>apply_inverse_gaussian_mtf</code> is defined as:</p>
+<pre><code class="language-java">Image apply_inverse_gaussian_mtf(Image img, Number s) {
+	ComplexImage fft := realFft(img)
+
+	Number x_size = imageGetDimensionSize(fft, 0)
+	Number y_size = imageGetDimensionSize(fft, 1)
+
+	// In DM, the origin (aka null frequency) of a FFT is located in the middle
+	// pixel
+	Number x_0 = ceil(x_size / 2)
+	Number y_0 = ceil(y_size / 2)
+
+	fft /= exp( \
+		- ((icol - x_0) * s/16 / 2 / x_size)**2 \
+		- ((irow - y_0) * s/16 / 2 / y_size)**2 \
+	)
+
+	return realIfft(fft)
+}
+</code></pre>
+<p>As we can see here, this code only does a multiplication of the image by a function
+(which never cancels) the Fourier space of the image.</p>
+<p>This is done by doing a Fourier Tranform, multiplying by the function, and then doing
+the inverse transformation on the result. Or, as summarized in pseudo-code:</p>
+<pre><code>s1  = fourier_transform(input)
+s2  = multiply_by_f(s1)
+out = inverse_fourier_transform(s2)
+</code></pre>
+<div id="admonition-icol-irow" class="admonition info">
+<div class="admonition-title">
+<p><code>icol</code>, <code>irow</code></p>
+</div>
+<div>
+<p>In Digital Micrograph's jargon, <code>icol</code> and <code>irow</code> are called <em>intrinsic variables</em>.
+They can only be used in an image expression. In that context, they allow to define
+functions of \(x\) (<code>icol</code>) and \(y\) (<code>irow</code>).</p>
+<p>For example, one could add a polynomial \(xy + 3\) to image <code>img</code> with the following
+expression:</p>
+<pre><code class="language-java">img +  icol * irow + 3
+// Or, if we want to update `img`
+img += icol * irow + 3
+</code></pre>
+<p><code>icol</code> and <code>irow</code> are expressed in pixel unit, and match respectively the \(x\) and
+\(y\) indexes of the pixel in the image. Therefore, <code>icol</code> grows from left to right,
+and <code>irow</code> from top to bottom (which is the opposite direction to the usual one for
+\(y\)), and they are both 0 for the top left pixel.</p>
+</div>
+</div>
+<div id="admonition-realfft-realifft" class="admonition info">
+<div class="admonition-title">
+<p><code>realFft</code>, <code>realIfft</code></p>
+</div>
+<div>
+<p><code>realFft</code> is the Digital Micrograph function to perform Fourier Transform on
+real-valued images. Its reciprocal is <code>realIfft</code>.</p>
+<p>To perform Fourier Transform on complex-valued images, one must use <code>fft</code> and
+<code>iFft</code> instead.</p>
+</div>
+</div>
+<h2 id="inverting-the-function"><a class="header" href="#inverting-the-function">Inverting the Function</a></h2>
+<p>Doing the inverse operation is pretty simple. We need to reverse the order of
+operations, and take the inverse of every operator, so this gives us:</p>
+<pre><code>s1  = inverse(inverse_fourier_transform)(input)
+s2  = inverse(multiply_by_f)(s1)
+out = inverse(fourier_transform)(s2)
+</code></pre>
+<p>Which expand to:</p>
+<pre><code>s1  = fourier_transform(input)
+s2  = divide_by_f(s1)
+out = inverse_fourier_transform(s2)
+</code></pre>
+<p>Which is exactly <code>apply_inverse_gaussian_mtf</code>, except we now use the inverse of \(f\).</p>
+<p>The solution code is therefore the same as for <code>apply_inverse_gaussian_mtf</code>, except
+for a single character (the <code>/=</code> operator that becomes a <code>*=</code> operator):</p>
+<pre><code class="language-java">Image deconvolve_inverse_gaussian_mtf(Image img, Number s) {
+	ComplexImage fft := realFft(img)
+
+	Number x_size = imageGetDimensionSize(fft, 0)
+	Number y_size = imageGetDimensionSize(fft, 1)
+
+	Number x_0 = ceil(x_size / 2)
+	Number y_0 = ceil(y_size / 2)
+
+	fft *= exp( \
+		- ((icol - x_0) * s/16 / 2 / x_size)**2 \
+		- ((irow - y_0) * s/16 / 2 / y_size)**2 \
+	)
+
+	return realIfft(fft)
+}
+</code></pre>
+<h2 id="current-proposed-implementation"><a class="header" href="#current-proposed-implementation">Current Proposed Implementation</a></h2>
+<div id="admonition-warning" class="admonition warning">
+<div class="admonition-title">
+<p>Warning</p>
+</div>
+<div>
+<p>The following is a solution to the problem.
+We invite you to make your own attempts before consulting it.</p>
+</div>
+</div>
+<details id="admonition-solution" class="admonition example">
+<summary class="admonition-title">
+<p>Solution</p>
+</summary>
+<div>
+<pre><code class="language-java">Image get_image_tag(Image img, String tag) {
+	TagGroup tags = imageGetTagGroup(img)
+
+	Number size
+	tagGroupGetTagAsNumber(tags, tag + &quot; Size&quot;, size)
+
+	Image img_tag := realImage(&quot;&quot;, 8, size)
+	tagGroupGetTagAsArray(tags, tag, img_tag)
+
+	return img_tag
+}
+
+Number mean_maximum_positions(Image img) {
+	Number size = imageGetDimensionSize(img, 0)
+
+	Number mean = 0
+	Number maximums_number = 0
+
+	for (Number i = 1 ; i &lt; size - 1 ; ++i) {
+		if (sum(img[i - 1, 0]) &lt;= sum(img[i, 0]) &amp;&amp; \
+			sum(img[i + 1, 0]) &lt;= sum(img[i, 0])) {
+			++maximums_number
+			mean += (i - mean)/maximums_number
+			++i
+		}
+	}
+
+	return mean
+}
+
+Image deconvolve_inverse_gaussian_mtf(Image img, Number s) {
+	ComplexImage fft := realFft(img)
+
+	Number x_size = imageGetDimensionSize(fft, 0)
+	Number y_size = imageGetDimensionSize(fft, 1)
+
+	Number x_0 = ceil(x_size / 2)
+	Number y_0 = ceil(y_size / 2)
+
+	fft *= exp( \
+		- ((icol - x_0) * s/16 / 2 / x_size)**2 \
+		- ((irow - y_0) * s/16 / 2 / y_size)**2 \
+	)
+
+	return realIfft(fft)
+}
+
+
+Image src := getFrontImage()
+
+Image pseudo_spectrum := get_image_tag(src, &quot;Pseudospectrum&quot;)
+
+Number mean = mean_maximum_positions(pseudo_spectrum)
+Number s = round( mean / 8 )
+
+Image step1 := deconvolve_inverse_gaussian_mtf(src, s)
+
+showImage(step1)
+</code></pre>
+</div>
+</details>
+<!-- ~~~admonish example title="Mystery Processing Recap" collapsible=true
+```java
+Image src := getFrontImage()
+
+Image mystery_swapped := mystery_swap(src)
+
+Image with_polynomial := add_random_polynomial(mystery_swapped)
+
+Image maximum_positions := round(random_image_with_min_dist(4, 10, 990, 50))
+Number s = round( mean(maximum_positions) / 8 )
+Image pseudo_spectrum := pseudospectrum_with_maximums_at(1000, maximum_positions)
+
+Image output := apply_inverse_gaussian_mtf(with_polynomial, s)
+
+add_image_tag(output, "Pseudospectrum", pseudo_spectrum)
+
+showImage(output)
+```
+~~~ -->
+<div style="break-before: page; page-break-before: always;"></div><h1 id="removing-the-distortion"><a class="header" href="#removing-the-distortion">Removing the Distortion</a></h1>
+<div id="admonition-reflection-time" class="admonition question">
+<div class="admonition-title">
+<p>Reflection Time</p>
+</div>
+<div>
+<p>Now, we will discuss the problem together as a class, and see how we can solve it.</p>
+</div>
+</div>
+<pre class="mermaid">
+graph TD
+    classDef important fill:firebrick
+    classDef starts fill:indianred
+    classDef focus fill:forestgreen
+    classDef done fill:dimgrey
+    classDef obj fill:chocolate
+    subgraph Mystery Processing
+        Start([Start]):::starts--&gt;mystery_image[/Mystery Image/]:::important
+        mystery_image--&gt;swap[Mystery Swap]
+        swap--&gt;polynomial[Addition of Random Polynomial Background]
+        polynomial--&gt;mtf[Application of a Transfert Function]
+        mtf--&gt;tag[Attach Pseudospectrum as Metadata]
+        tag--&gt;coded_image[/Encoded Image/]:::important
+        coded_image--&gt;End([End]):::starts
+        Start--&gt;rand_vec[Random Numbers Generation]
+        rand_vec--&gt;maxs[/Random Numbers/]
+        maxs--&gt;mean[Averaging]
+        mean--&gt;mtf
+        maxs--&gt;gspec[Generate a Pseudospectrum with Input Maximums]
+        gspec--&gt;pspec[/Pseudospectrum/]
+        pspec--&gt;tag
+    end
+    class polynomial focus
+    class mtf,tag,pspec,gspec,maxs,rand,mean,rand_vec done
+</pre>
+<p>Now that the transfert function was undone, let's go to the next step:
+removing the polynomial background. This was written as:</p>
+<pre><code class="language-java">Image with_polynomial := add_random_polynomial(mystery_swapped)
+</code></pre>
+<p>If we look at the exact definition of that function call, we get:</p>
+<pre><code class="language-java">// Return a random integer in the [min, max] interval, with a uniform
+// distribution.
+Number random_integer(Number min, Number max) {
+	return round((max - min) * random() + min)
+}
+
+// Add a random polynomial background to the image
+Image add_random_polynomial(Image src) {
+	Number x_size = imageGetDimensionSize(src, 0)
+	Number y_size = imageGetDimensionSize(src, 1)
+
+	Image xxy := realImage(&quot;&quot;, 8, x_size, y_size)
+	xxy = icol * icol * irow / x_size / x_size / y_size
+	Image  yy := realImage(&quot;&quot;, 8, x_size, y_size)
+	yy  = irow * irow / y_size / y_size
+	Image yyy := realImage(&quot;&quot;, 8, x_size, y_size)
+	yyy = irow * irow * irow / y_size / y_size / y_size
+	
+	Image result := realImage(&quot;&quot;, 8, x_size, y_size)
+	result = src + \
+		random_integer(1, 10) * xxy + \
+		random_integer(1, 10) *  yy + \
+		random_integer(1, 10) * yyy
+	
+	return result
+}
+</code></pre>
+<p>If we translate this in math terms, it is equivalent to the following
+equation:</p>
+<p>\[ I_\mathrm{out}(x, y) = I_\mathrm{in}(x, y) + A x^2 y + B y^2 + C y^3 \]</p>
+<p>Where \(I_\mathrm{in}\) and \(I_\mathrm{out}\) are respectively the
+input and output image, and \(A\), \(B\) and \(C\) are random integer between
+1 and 10.</p>
+<p>We therefore need to somehow recover the exact values of \(A\), \(B\) and \(C\).</p>
+<div id="admonition-realimage" class="admonition info">
+<div class="admonition-title">
+<p><code>realImage</code></p>
+</div>
+<div>
+<p>Allocates a floating-point, real-valued image. Is used as such:</p>
+<pre><code class="language-java">Number bytes_number = 8 // Either 4 or 8; defines the precision
+Number x_size = 100
+Number y_size = 100
+Number z_size = 100
+Number t_size = 100
+// 1D image
+Image img := realImage(&quot;Image name&quot;, bytes_number, x_size)
+// 2D image
+Image img := realImage(&quot;Image name&quot;, bytes_number, x_size, y_size)
+// 3D image
+Image img := realImage(&quot;Image name&quot;, bytes_number, x_size, y_size, z_size)
+// 4D image
+Image img := realImage(&quot;Image name&quot;, bytes_number, x_size, y_size, z_size, t_size)
+</code></pre>
+</div>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="suggested-approach-linear-least-squares"><a class="header" href="#suggested-approach-linear-least-squares">Suggested Approach: Linear Least Squares</a></h1>
+<p><em>Linear Least Squares</em> is a method to find a solution to the problem:</p>
+<p>\[ f(x, y, \dots) = A a(x, y, \dots) + B b(x, y, \dots) + \dots + r(x, y, \dots) \]</p>
+<p>Where \(f\) is a function that you know and want to express in terms of a linear
+combination of known functions \(a\), \(b\), \(c\)... Since such a linear
+combination usually do not exist, there is always a residual function \(r\). 
+The goal is then to find a linear combination (in other words, the values for the
+coefficients \(A\), \(B\), ...) that is the closest to \(f\), and so to make
+\(r\) as small as possible (with respect to the quadratic \(L_2\) norm, hence the
+name <em>Least Squares</em>)).</p>
+<p>In that equation, \(f\), \(r\), \(a\), \(b\), ... may take any number
+of variables and those may be integers (which means it can be a \(n\]-dimensional
+image for example); their return value may also be multidimensional.</p>
+<p>This method is usually used in 2 contexts:</p>
+<ol>
+<li>When \(f\) is known to be a linear combination of known basis functions, possibly coming
+from a noisy measurement, and we want to estimate as best as we can the proportion
+of each basis function in \(f\) disregarding the noise.</li>
+<li>When \(f\) comes from a measurement whose systematic noise is known to be a linear
+combination of known basis functions, and we want to remove the noise as best as we can.</li>
+</ol>
+<p>In our case, we fall in the second context.</p>
+<p><em>Linear Least Square</em> consist in solving the following matrix equation:</p>
+<p>\[ \mathbf{A} \pmb{x} = \pmb{v} \]</p>
+<p>Where the matrix \(\mathbf{A}\) is defined as:</p>
+<p>\[
+\begin{pmatrix}
+a \cdot a &amp; a \cdot b &amp; a \cdot c &amp; \cdots \\
+b \cdot a &amp; b \cdot b &amp; b \cdot c &amp; \cdots \\
+c \cdot a &amp; c \cdot b &amp; c \cdot c &amp; \cdots \\
+\vdots  &amp;   \vdots  &amp;   \vdots  &amp; \ddots
+\end{pmatrix}
+\]</p>
+<p>with \(\cdot\) being the dot product, the vector \(\pmb{v}\) is
+defined as:</p>
+<p>\[
+\begin{pmatrix}
+a \cdot f \\
+b \cdot f \\
+c \cdot f \\
+\vdots
+\end{pmatrix}
+\]</p>
+<p>and the vector \(\pmb{x}\) which is the vector of best estimates we are
+looking for, defined as:</p>
+<p>\[
+\begin{pmatrix}
+A \\
+B \\
+C \\
+\vdots
+\end{pmatrix}
+\]</p>
+<p>The residual \(r\) may then be computed as:
+\[ r =  f - A a - B b - C c - \dots \]</p>
+<div id="admonition-tip" class="admonition tip">
+<div class="admonition-title">
+<p>Tip</p>
+</div>
+<div>
+<p>In the previous section, the <em>basis images</em> were defined as such:</p>
+<pre><code class="language-java">	Number x_size = imageGetDimensionSize(src, 0)
+	Number y_size = imageGetDimensionSize(src, 1)
+
+	Image xxy := realImage(&quot;&quot;, 8, x_size, y_size)
+	xxy = icol * icol * irow / x_size / x_size / y_size
+	Image  yy := realImage(&quot;&quot;, 8, x_size, y_size)
+	yy  = irow * irow / y_size / y_size
+	Image yyy := realImage(&quot;&quot;, 8, x_size, y_size)
+	yyy = irow * irow * irow / y_size / y_size / y_size
+</code></pre>
+</div>
+</div>
+<div id="admonition-info" class="admonition info">
+<div class="admonition-title">
+<p>Info</p>
+</div>
+<div>
+<p>The dot product between two images is done in Digital Micrograph with
+the <code>dotProduct</code> function:</p>
+<pre><code class="language-java">dotProduct(img1, img2)
+</code></pre>
+</div>
+</div>
+<div id="admonition-info-1" class="admonition info">
+<div class="admonition-title">
+<p>Info</p>
+</div>
+<div>
+<p>The \( \mathbf{A} \pmb{x} = \pmb{v} \) matrix equation can be solved without
+computing the matrix inverse of \(\mathbf{A}\) (which is computionally intensive),
+using dedicated solver functions, such as 
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.solve.html"><code>numpy.linalg.solve</code></a>
+and <a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"><code>numpy.linalg.lstsq</code></a>
+for python.</p>
+<p>In Digital Micrograph, the corresponding solver function is <code>svDecomposition</code>,
+that is used as such:</p>
+<pre><code class="language-java">Image A := realImage(&quot;&quot;, 8, 3, 3)
+A[0, 0] = 1
+A[1, 0] = 2
+A[2, 0] = 3
+
+A[0, 1] = 4
+A[1, 1] = 5
+A[2, 1] = 6
+
+A[0, 2] = 7
+A[1, 2] = 8
+A[2, 2] = 9
+
+// This is a row vector, but a column vector would also work.
+// In any case, it will be interpreted as a column vector for
+// the purpose of svDecomposition
+Image b := realImage(&quot;&quot;, 8, 3, 1)
+b[0, 0] = 10
+b[1, 0] = 11
+b[2, 0] = 12
+
+// This return a row vector for programming reasons, but mathematically
+// it is a column vector.
+Image x := svDecomposition(A, b)
+showImage(x)
+</code></pre>
+<p>This script solves the following matrix equation:</p>
+<p>\[
+\begin{pmatrix}
+1 &amp; 2 &amp; 3 \
+4 &amp; 5 &amp; 6 \
+7 &amp; 8 &amp; 9
+\end{pmatrix}
+\pmb{x} =
+\begin{pmatrix}
+10 \
+11 \
+12
+\end{pmatrix}
+\]</p>
+</div>
+</div>
+<div id="admonition-warning" class="admonition warning">
+<div class="admonition-title">
+<p>Warning</p>
+</div>
+<div>
+<p>The name of the <code>svDecomposition</code> function is misleading. While the <em>Singular
+Value Decomposition</em> (SVD) may be used to write a solver to the
+\( \mathbf{A} \pmb{x} = \pmb{v} \) equation, it is a different procedure.</p>
+<p>You can learn more about the SVD with
+<a href="https://www.youtube.com/playlist?list=PLMrJAkhIeNNSVjnsviglFoY2nXildDCcv">Steve Brunton's <em>Singular Value Decomposition</em> series on Youtube</a>.</p>
+</div>
+</div>
+<div id="admonition-warning-1" class="admonition warning">
+<div class="admonition-title">
+<p>Warning</p>
+</div>
+<div>
+<p>The \( \mathbf{A} \) matrix is numerically ill-conditioned here.
+This means that the accuracy of the result strongly depends on both:</p>
+<ol>
+<li>The floating point type <em>precision</em> used (often <em>single</em> or <em>double</em> precision,
+respectively 4 and 8 bytes).</li>
+<li>The rounding errors of the floating point operations.</li>
+</ol>
+<p>In other words, for best precision, you should:</p>
+<ol>
+<li>Use double-precision floating points (8 bytes, or <code>Real8</code> in Digital Micrograph).</li>
+<li>Not use matrix inversion on \( \mathbf{A} \) and use instead a proper linear
+matrix equation solver such as <code>svDecomposition</code> in Digital Micrograph.</li>
+<li>Try to normalize your \(a\), \(b\), ... functions in case your result
+are unsatisfactory, since big discrepancies in the relative amplitude of your
+functions may lead to rounding errors (this was already done for you in this
+practical)</li>
+</ol>
+</div>
+</div>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<p>Lawson, Charles L.; Hanson Richard J. (1995). <em>Solving Least Square Problems</em>, SIAM</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="removing-polynomial-proposed-implementation"><a class="header" href="#removing-polynomial-proposed-implementation">Removing Polynomial: Proposed Implementation</a></h1>
+<div id="admonition-warning" class="admonition warning">
+<div class="admonition-title">
+<p>Warning</p>
+</div>
+<div>
+<p>The following is a solution to the problem.
+We invite you to make your own attempts before consulting it.</p>
+</div>
+</div>
+<details id="admonition-polynomial-fit-solution" class="admonition example">
+<summary class="admonition-title">
+<p>Polynomial fit solution</p>
+</summary>
+<div>
+<pre><code class="language-java">Image remove_polynomial_background(Image src) {
+	Number x_size = imageGetDimensionSize(src, 0)
+	Number y_size = imageGetDimensionSize(src, 1)
+
+	Image xxy := realImage(&quot;&quot;, 8, x_size, y_size)
+	xxy = icol * icol * irow / x_size / x_size / y_size
+	Image  yy := realImage(&quot;&quot;, 8, x_size, y_size)
+	yy  = irow * irow / y_size / y_size
+	Image yyy := realImage(&quot;&quot;, 8, x_size, y_size)
+	yyy = irow * irow * irow / y_size / y_size / y_size
+	
+
+	Image A := realImage(&quot;&quot;, 8, 3, 3)
+	A[0, 0] = dotProduct(xxy, xxy)
+	A[1, 0] = dotProduct(xxy,  yy)
+	A[2, 0] = dotProduct(xxy, yyy)
+	
+	A[0, 1] = dotProduct( yy, xxy)
+	A[1, 1] = dotProduct( yy,  yy)
+	A[2, 1] = dotProduct( yy, yyy)
+	
+	A[0, 2] = dotProduct(yyy, xxy)
+	A[1, 2] = dotProduct(yyy,  yy)
+	A[2, 2] = dotProduct(yyy, yyy)
+
+	Image b := realImage(&quot;&quot;, 8, 3, 1)
+	b[0, 0] = dotProduct(xxy, src)
+	b[1, 0] = dotProduct( yy, src)
+	b[2, 0] = dotProduct(yyy, src)
+
+	Image solution := svDecomposition(A, b)
+	
+	Image result := realImage(&quot;&quot;, 8, x_size, y_size)
+	result = src - (\
+		round(sum(solution[0, 0])) * xxy + \
+		round(sum(solution[1, 0])) *  yy + \
+		round(sum(solution[2, 0])) * yyy   \
+	)
+
+	return result
+}
+</code></pre>
+</div>
+</details>
+<details id="admonition-complete-current-solution" class="admonition example">
+<summary class="admonition-title">
+<p>Complete current solution</p>
+</summary>
+<div>
+<pre><code class="language-java">Image get_image_tag(Image img, String tag) {
+	TagGroup tags = imageGetTagGroup(img)
+
+	Number size
+	tagGroupGetTagAsNumber(tags, tag + &quot; Size&quot;, size)
+
+	Image img_tag := realImage(&quot;&quot;, 8, size)
+	tagGroupGetTagAsArray(tags, tag, img_tag)
+
+	return img_tag
+}
+
+Number mean_maximum_positions(Image img) {
+	Number size = imageGetDimensionSize(img, 0)
+
+	Number mean = 0
+	Number maximums_number = 0
+
+	for (Number i = 1 ; i &lt; size - 1 ; ++i) {
+		if (sum(img[i - 1, 0]) &lt;= sum(img[i, 0]) &amp;&amp; \
+			sum(img[i + 1, 0]) &lt;= sum(img[i, 0])) {
+			++maximums_number
+			mean += (i - mean)/maximums_number
+			++i
+		}
+	}
+
+	return mean
+}
+
+Image deconvolve_inverse_gaussian_mtf(Image img, Number s) {
+	ComplexImage fft := realFft(img)
+
+	Number x_size = imageGetDimensionSize(fft, 0)
+	Number y_size = imageGetDimensionSize(fft, 1)
+
+	Number x_0 = ceil(x_size / 2)
+	Number y_0 = ceil(y_size / 2)
+
+	fft *= exp( \
+		- ((icol - x_0) * s/16 / 2 / x_size)**2 \
+		- ((irow - y_0) * s/16 / 2 / y_size)**2 \
+	)
+
+	return realIfft(fft)
+}
+
+Image remove_polynomial_background(Image src) {
+	Number x_size = imageGetDimensionSize(src, 0)
+	Number y_size = imageGetDimensionSize(src, 1)
+
+	Image xxy := realImage(&quot;&quot;, 8, x_size, y_size)
+	xxy = icol * icol * irow / x_size / x_size / y_size
+	Image  yy := realImage(&quot;&quot;, 8, x_size, y_size)
+	yy  = irow * irow / y_size / y_size
+	Image yyy := realImage(&quot;&quot;, 8, x_size, y_size)
+	yyy = irow * irow * irow / y_size / y_size / y_size
+	
+
+	Image A := realImage(&quot;&quot;, 8, 3, 3)
+	A[0, 0] = dotProduct(xxy, xxy)
+	A[1, 0] = dotProduct(xxy,  yy)
+	A[2, 0] = dotProduct(xxy, yyy)
+	
+	A[0, 1] = dotProduct( yy, xxy)
+	A[1, 1] = dotProduct( yy,  yy)
+	A[2, 1] = dotProduct( yy, yyy)
+	
+	A[0, 2] = dotProduct(yyy, xxy)
+	A[1, 2] = dotProduct(yyy,  yy)
+	A[2, 2] = dotProduct(yyy, yyy)
+
+	Image b := realImage(&quot;&quot;, 8, 3, 1)
+	b[0, 0] = dotProduct(xxy, src)
+	b[1, 0] = dotProduct( yy, src)
+	b[2, 0] = dotProduct(yyy, src)
+
+	Image solution := svDecomposition(A, b)
+	
+	Image result := realImage(&quot;&quot;, 8, x_size, y_size)
+	result = src - (\
+		round(sum(solution[0, 0])) * xxy + \
+		round(sum(solution[1, 0])) *  yy + \
+		round(sum(solution[2, 0])) * yyy   \
+	)
+
+	return result
+}
+
+
+Image src := getFrontImage()
+
+Image pseudo_spectrum := get_image_tag(src, &quot;Pseudospectrum&quot;)
+
+Number mean = mean_maximum_positions(pseudo_spectrum)
+Number s = round( mean / 8 )
+
+Image step1 := deconvolve_inverse_gaussian_mtf(src, s)
+
+Image step2 := remove_polynomial_background(step1)
+
+showImage(step2)
+</code></pre>
+</div>
+</details><div style="break-before: page; page-break-before: always;"></div><h1 id="reconstructing-the-image"><a class="header" href="#reconstructing-the-image">Reconstructing the Image</a></h1>
+<div id="admonition-info" class="admonition info">
+<div class="admonition-title">
+<p>Info</p>
+</div>
+<div>
+<p>For this section, we will need the <a href="5-installing-scripts/../dmscripts/mystery_unswap.s" download>following library file</a>.</p>
+</div>
+</div>
+<pre class="mermaid">
+graph TD
+    classDef important fill:firebrick
+    classDef starts fill:indianred
+    classDef focus fill:forestgreen
+    classDef done fill:dimgrey
+    classDef obj fill:chocolate
+    subgraph Mystery Processing
+        Start([Start]):::starts--&gt;mystery_image[/Mystery Image/]:::important
+        mystery_image--&gt;swap[Mystery Swap]
+        swap--&gt;polynomial[Addition of Random Polynomial Background]
+        polynomial--&gt;mtf[Application of a Transfert Function]
+        mtf--&gt;tag[Attach Pseudospectrum as Metadata]
+        tag--&gt;coded_image[/Encoded Image/]:::important
+        coded_image--&gt;End([End]):::starts
+        Start--&gt;rand_vec[Random Numbers Generation]
+        rand_vec--&gt;maxs[/Random Numbers/]
+        maxs--&gt;mean[Averaging]
+        mean--&gt;mtf
+        maxs--&gt;gspec[Generate a Pseudospectrum with Input Maximums]
+        gspec--&gt;pspec[/Pseudospectrum/]
+        pspec--&gt;tag
+    end
+    class swap focus
+    class polynomial,mtf,tag,pspec,gspec,maxs,rand,mean,rand_vec done
+</pre>
+<p>In this section, we will perform the last step of image reconstruction, with the
+help of an external function that we will install.</p>
+<p>The goal this time is not to build the function ourselves, but rather to learn how
+to install a script persistently, for other scripts to use. This is necessary in order
+to be able to reuse software.</p>
+<div id="admonition-tip" class="admonition tip">
+<div class="admonition-title">
+<p>Tip</p>
+</div>
+<div>
+<p>You should try to split your software in as many units of logic as possible. You
+may then put those separate bits of logic in different (properly named) functions.
+It is not an easy task, and it may require taking a step back, but it is worth it.</p>
+<p>This approach has several benefits:</p>
+<ol>
+<li>It makes us write code that is easier to read, by separating your main task in
+several subtasks (that may be then separated in subsubtasks and so on).</li>
+<li>It makes us write code that may be reusable, so we or other people may
+build upon it instead of systematically reinventing the wheel.</li>
+<li>It also means that we have only one place to modify if we want to improve
+a function that is used by several scripts</li>
+</ol>
+<!--
+Compare for example:
+```java
+Image src := getfrontimage()
+
+Image fft := realfft(src) * exp(-4 * icol**2 - 4 * irow**2)
+``` -->
+</div>
+</div>
+<h2 id="installing-and-uninstalling-a-script"><a class="header" href="#installing-and-uninstalling-a-script">Installing and Uninstalling a Script</a></h2>
+<p>In order to integrate our scripts in Digital Micrograph,
+we have the option of installing them persistently.</p>
+<p>Digital Micrograph gives us two option:</p>
+<ol>
+<li>
+<p>We may install our script as a menu item, which will allow us to
+run our script each time we click on the item. Using this, we will
+have quick access to our processings.</p>
+</li>
+<li>
+<p>We may install our script as a library, which helps in making our functions
+available to other scripts. The script will be automatically executed at
+start-up, and every global state and function will be kept in memory until
+shutdown (or explicit removal).</p>
+<p>This mode may also be used for arbitrary code execution at start-up, for example
+to automatically setup a connection with our microscope, to print some instrument
+state in the <code>Results</code> window, to open the last closed image...</p>
+</li>
+</ol>
+<details id="admonition-installing-a-script-as-a-library" class="admonition tip">
+<summary class="admonition-title">
+<p>Installing a script as a library</p>
+</summary>
+<div>
+<ol>
+<li>Make sure your script is open in Digital Micrograph.</li>
+<li>Click on your script, to make sure it is selected.</li>
+<li>Go to <code>File &gt; Install Script...</code>.</li>
+<li>Click on the <code>Library</code> tab.</li>
+<li><em>(Optional)</em> Rename your library on the text field if need be.</li>
+<li>Select either <code>Install for the current user only</code> or <code>Install for all users</code>,
+depending on your needs.</li>
+<li>Click <code>Ok</code>.</li>
+</ol>
+<video controls>
+    <source src="install_library.mp4" type="video/mp4">
+    <track label="English" kind="subtitles" srclang="en" src="install_library.vtt" default>
+<pre><code>Sorry, your browser doesn't support embedded videos.
+</code></pre>
+</video>
+</div>
+</details>
+<details id="admonition-installing-a-script-as-a-menu-item" class="admonition tip">
+<summary class="admonition-title">
+<p>Installing a script as a menu item</p>
+</summary>
+<div>
+<ol>
+<li>Make sure your script is open in Digital Micrograph.</li>
+<li>Click on your script, to make sure it is selected.</li>
+<li>Go to <code>File &gt; Install Script...</code>.</li>
+<li>Rename your command on the <code>Name of command?</code> text field.</li>
+<li>Name the menu to put your command in the <code>Which menu?</code> text field.</li>
+<li><em>(Optional)</em> Name a submenu to put your command in the <code>Optional submenu?</code> text field.</li>
+<li>Select either <code>Install for the current user only</code> or <code>Install for all users</code>,
+depending on your needs.</li>
+<li>Click <code>Ok</code>.</li>
+</ol>
+<video controls>
+    <source src="install_menu.mp4" type="video/mp4">
+    <track label="English" kind="subtitles" srclang="en" src="install_menu.vtt" default>
+<pre><code>Sorry, your browser doesn't support embedded videos.
+</code></pre>
+</video>
+</div>
+</details>
+<details id="admonition-removing-a-script" class="admonition tip">
+<summary class="admonition-title">
+<p>Removing a script</p>
+</summary>
+<div>
+<ol>
+<li>Go to <code>File &gt; Remove Script...</code>.</li>
+<li>If your script was installed for all users, click on the <code>All Users</code> tab,
+otherwise stay here.</li>
+<li>Select your script on the list.</li>
+<li>Click <code>Remove</code>.</li>
+</ol>
+<video controls>
+    <source src="removing_a_script.mp4" type="video/mp4">
+    <track label="English" kind="subtitles" srclang="en" src="removing_a_script.vtt" default>
+<pre><code>Sorry, your browser doesn't support embedded videos.
+</code></pre>
+</video>
+</div>
+</details>
+<h2 id="installing-the-mystery-unswap"><a class="header" href="#installing-the-mystery-unswap">Installing the Mystery Unswap</a></h2>
+<p>If you did not already, download the <a href="5-installing-scripts/../dmscripts/mystery_unswap.s" download>library file</a>.
+Then install it <em>as a script</em>, following the explanations from the previous section.</p>
+<p>You may then use it with the following line:</p>
+<pre><code class="language-java">Image out := mystery_unswap(step2)
+</code></pre>
+<div id="admonition-warning" class="admonition warning">
+<div class="admonition-title">
+<p>Warning</p>
+</div>
+<div>
+<p>Please do not forget to uninstall the <code>mystery_unswap</code> script be fore leaving,
+so that your classmates may reinstall it without trouble.</p>
+</div>
+</div>
+<h2 id="final-proposed-implementation"><a class="header" href="#final-proposed-implementation">Final Proposed Implementation</a></h2>
+<div id="admonition-warning-1" class="admonition warning">
+<div class="admonition-title">
+<p>Warning</p>
+</div>
+<div>
+<p>The following is a solution to the problem.
+We invite you to make your own attempts before consulting it.</p>
+</div>
+</div>
+<details id="admonition-solution" class="admonition example">
+<summary class="admonition-title">
+<p>Solution</p>
+</summary>
+<div>
+<pre><code class="language-java">Image get_image_tag(Image img, String tag) {
+	TagGroup tags = imageGetTagGroup(img)
+
+	Number size
+	tagGroupGetTagAsNumber(tags, tag + &quot; Size&quot;, size)
+
+	Image img_tag := realImage(&quot;&quot;, 8, size)
+	tagGroupGetTagAsArray(tags, tag, img_tag)
+
+	return img_tag
+}
+
+Number mean_maximum_positions(Image img) {
+	Number size = imageGetDimensionSize(img, 0)
+
+	Number mean = 0
+	Number maximums_number = 0
+
+	for (Number i = 1 ; i &lt; size - 1 ; ++i) {
+		if (sum(img[i - 1, 0]) &lt;= sum(img[i, 0]) &amp;&amp; \
+			sum(img[i + 1, 0]) &lt;= sum(img[i, 0])) {
+			++maximums_number
+			mean += (i - mean)/maximums_number
+			++i
+		}
+	}
+
+	return mean
+}
+
+Image deconvolve_inverse_gaussian_mtf(Image img, Number s) {
+	ComplexImage fft := realFft(img)
+
+	Number x_size = imageGetDimensionSize(fft, 0)
+	Number y_size = imageGetDimensionSize(fft, 1)
+
+	Number x_0 = ceil(x_size / 2)
+	Number y_0 = ceil(y_size / 2)
+
+	fft *= exp( \
+		- ((icol - x_0) * s/16 / 2 / x_size)**2 \
+		- ((irow - y_0) * s/16 / 2 / y_size)**2 \
+	)
+
+	return realIfft(fft)
+}
+
+Image remove_polynomial_background(Image src) {
+	Number x_size = imageGetDimensionSize(src, 0)
+	Number y_size = imageGetDimensionSize(src, 1)
+
+	Image xxy := realImage(&quot;&quot;, 8, x_size, y_size)
+	xxy = icol * icol * irow / x_size / x_size / y_size
+	Image  yy := realImage(&quot;&quot;, 8, x_size, y_size)
+	yy  = irow * irow / y_size / y_size
+	Image yyy := realImage(&quot;&quot;, 8, x_size, y_size)
+	yyy = irow * irow * irow / y_size / y_size / y_size
+	
+
+	Image A := realImage(&quot;&quot;, 8, 3, 3)
+	A[0, 0] = dotProduct(xxy, xxy)
+	A[1, 0] = dotProduct(xxy,  yy)
+	A[2, 0] = dotProduct(xxy, yyy)
+	
+	A[0, 1] = dotProduct( yy, xxy)
+	A[1, 1] = dotProduct( yy,  yy)
+	A[2, 1] = dotProduct( yy, yyy)
+	
+	A[0, 2] = dotProduct(yyy, xxy)
+	A[1, 2] = dotProduct(yyy,  yy)
+	A[2, 2] = dotProduct(yyy, yyy)
+
+	Image b := realImage(&quot;&quot;, 8, 3, 1)
+	b[0, 0] = dotProduct(xxy, src)
+	b[1, 0] = dotProduct( yy, src)
+	b[2, 0] = dotProduct(yyy, src)
+
+	Image solution := svDecomposition(A, b)
+	
+	Image result := realImage(&quot;&quot;, 8, x_size, y_size)
+	result = src - (\
+		round(sum(solution[0, 0])) * xxy + \
+		round(sum(solution[1, 0])) *  yy + \
+		round(sum(solution[2, 0])) * yyy   \
+	)
+
+	return result
+}
+
+
+Image src := getFrontImage()
+
+Image pseudo_spectrum := get_image_tag(src, &quot;Pseudospectrum&quot;)
+
+Number mean = mean_maximum_positions(pseudo_spectrum)
+Number s = round( mean / 8 )
+
+Image step1 := deconvolve_inverse_gaussian_mtf(src, s)
+
+Image step2 := remove_polynomial_background(step1)
+
+Image out := mystery_unswap(step2)
+
+Image normalized := min(255, max(0, round(out)))
+showImage(normalized)
+</code></pre>
+</div>
+</details><div style="break-before: page; page-break-before: always;"></div><h1 id="to-go-further"><a class="header" href="#to-go-further">To Go Further</a></h1>
+<h2 id="references-for-dm-scripting"><a class="header" href="#references-for-dm-scripting">References for DM Scripting</a></h2>
+<ul>
+<li>
+<p>Digital Micrograph's help section on <em>Scripting</em> covers the basics.
+A pretty good amount of example scripts are provided, and the <em>Reference</em>
+subsection gives an (unfortunately incomplete) list of the available functions
+(some described in the others subsections are not summarized there so try looking
+around).</p>
+</li>
+<li>
+<p><a href="http://digitalmicrograph-scripting.tavernmaker.de/HowToScript_index.htm">Bernhard Schaffer's <em>How to script...</em></a>
+is a free (on-request) compendium of invaluable tutorials focused on solving basic
+and complex programming tasks.</p>
+</li>
+<li>
+<p>While not up to date, <a href="http://digitalmicrograph-scripting.tavernmaker.de/other%20resources/Old-DMHelp/AllFunctions.html">the old Digital Micrograph's functions list</a>, also provided on Bernhard Schaffer's website, may prove to be useful.</p>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="mystery-processing-complete-script"><a class="header" href="#mystery-processing-complete-script">Mystery Processing: Complete Script</a></h1>
+<pre><code class="language-java">Image mystery_swap(Image img) {
+	img *= 2**-10
+	Image fft := realfft(img)
+	img *= 2**10
+	fft = polar(fft)
+	return realifft(fft)
+}
+
+// Stores the `img_tag` 1D image as a tag of the `img` image under the `tag` path,
+// alongside with its size.
+void add_image_tag(Image img, String tag, Image img_tag) {
+	TagGroup tags = imageGetTagGroup(img)
+
+	tagGroupSetTagAsArray(tags, tag, img_tag)
+	tagGroupSetTagAsNumber(tags, tag + &quot; Size&quot;, imageGetDimensionSize(img_tag, 0))
+}
+
+// Returns a random number in the [min, max] interval, with a uniform
+// distribution.
+Number random_uniform(Number min, Number max) {
+	return (max - min) * random() + min
+}
+// Returns a list (as a 1D image) of random numbers in the [min, max]
+// interval, with a uniform distribution.
+Image random_uniform_image(Number size, Number min, Number max) {
+	Image img := realImage(&quot;&quot;, 8, size)
+	
+	for (Number i = 0 ; i &lt; size ; ++i) {
+		img[i, 0] = random_uniform(min, max)
+	}
+	
+	return img
+}
+
+// Returns 1 if the distance between any two values of the input list `img`
+// is less than `min_size`
+Number has_close_values(Image img, Number min_size) {
+	Number n = imageGetDimensionSize(img, 0)
+	for (Number i = 0 ; i &lt; n ; ++i) {
+		for (Number j = 0 ; j &lt; i ; ++j) {
+			if (abs(sum(img[i, 0]) - sum(img[j, 0])) &lt; min_size) {
+				return 1
+			}
+		}
+	}
+	return 0
+}
+
+// Sort the input list `img` in-place
+void bubble_sort(Image img) {
+	Number size = imageGetDimensionSize(img, 0)
+	Number is_unsorted = 1
+	while (is_unsorted) {
+		Number swapped_values = 0
+		for (Number i = 0 ; i &lt; size - 1 ; ++i) {
+			if (sum(img[i + 1, 0] &lt; img[i, 0])) {
+				Number temp = sum(img[i, 0])
+				img[i, 0] = img[i + 1, 0]
+				img[i + 1, 0] = temp
+				++swapped_values
+			}
+		}
+		is_unsorted = swapped_values
+	}
+}
+
+// Generate a list of random values in the [min, max] interval that are
+// guaranteed to be least distant by `min_dist` between each other
+Image random_image_with_min_dist(Number size, Number min, Number max, Number min_dist) {
+	Image out := random_uniform_image(size, min, max)
+
+	while (has_close_values(out, min_dist)) {
+		out := random_uniform_image(size, min, max)
+	}
+
+	bubble_sort(out)
+
+	return out
+}
+
+// Generate a polynomial 1D &quot;pseudospectrum&quot; of length `size` bearing
+// maximums at the specified `maximum_positions`
+Image pseudospectrum_with_maximums_at(Number size, Image maximum_positions) {
+	Image img := realImage(&quot;&quot;, 8, size)
+	Number peak_numbers = imageGetDimensionSize(maximum_positions, 0)
+	
+	img = icol/size * (icol - size)/size
+	for (Number i = 0 ; i &lt; peak_numbers - 1 ; ++i) {
+		img *= (icol - sum(maximum_positions[i, 0]))/size
+		Number middle = (sum(maximum_positions[i, 0]) + sum(maximum_positions[i + 1, 0])) / 2
+		img *= (icol - middle)/size
+	}
+	img *= (icol - sum(maximum_positions[peak_numbers - 1, 0]))/size
+		
+	for (Number i = 1 ; i &lt; size ; ++i) {
+		img[i, 0] += img[i - 1, 0]
+	}
+	
+	return img
+}
+
+Image apply_inverse_gaussian_mtf(Image img, Number s) {
+	ComplexImage fft := realFft(img)
+
+	Number x_size = imageGetDimensionSize(fft, 0)
+	Number y_size = imageGetDimensionSize(fft, 1)
+
+	// In DM, the origin (aka null frequency) of a FFT is located in the middle
+	// pixel
+	Number x_0 = ceil(x_size / 2)
+	Number y_0 = ceil(y_size / 2)
+
+	fft /= exp( \
+		- ((icol - x_0) * s/16 / 2 / x_size)**2 \
+		- ((irow - y_0) * s/16 / 2 / y_size)**2 \
+	)
+
+	return realIfft(fft)
+}
+
+// Return a random integer in the [min, max] interval, with a uniform
+// distribution.
+Number random_integer(Number min, Number max) {
+	return round((max - min) * random() + min)
+}
+
+// Add a random polynomial background to the image
+Image add_random_polynomial(Image src) {
+	Number x_size = imageGetDimensionSize(src, 0)
+	Number y_size = imageGetDimensionSize(src, 1)
+
+	Image xxy := realImage(&quot;&quot;, 8, x_size, y_size)
+	xxy = icol * icol * irow / x_size / x_size / y_size
+	Image  yy := realImage(&quot;&quot;, 8, x_size, y_size)
+	yy  = irow * irow / y_size / y_size
+	Image yyy := realImage(&quot;&quot;, 8, x_size, y_size)
+	yyy = irow * irow * irow / y_size / y_size / y_size
+	
+	Image result := realImage(&quot;&quot;, 8, x_size, y_size)
+	result = src + \
+		random_integer(1, 10) * xxy + \
+		random_integer(1, 10) *  yy + \
+		random_integer(1, 10) * yyy
+	
+	return result
+}
+
+
+Image src := getFrontImage()
+
+Image mystery_swapped := mystery_swap(src)
+
+Image with_polynomial := add_random_polynomial(mystery_swapped)
+
+Image maximum_positions := round(random_image_with_min_dist(4, 10, 990, 50))
+Number s = round( mean(maximum_positions) / 8 )
+Image pseudo_spectrum := pseudospectrum_with_maximums_at(1000, maximum_positions)
+
+Image output := apply_inverse_gaussian_mtf(with_polynomial, s)
+
+add_image_tag(output, &quot;Pseudospectrum&quot;, pseudo_spectrum)
+
+showImage(output)
+</code></pre>
+<div id="admonition-roundx" class="admonition info">
+<div class="admonition-title">
+<p><code>round(x)</code></p>
+</div>
+<div>
+<p>Rounds a floating point number <code>x</code> to the nearest integer.</p>
+</div>
+</div>
+<div id="admonition-random" class="admonition info">
+<div class="admonition-title">
+<p><code>random()</code></p>
+</div>
+<div>
+<p>Returns a random number following an uniform distribution between 0 and 1.</p>
+</div>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="proposed-implementation-complete-script"><a class="header" href="#proposed-implementation-complete-script">Proposed Implementation: Complete Script</a></h1>
+<div id="admonition-warning" class="admonition warning">
+<div class="admonition-title">
+<p>Warning</p>
+</div>
+<div>
+<p>The following is a solution to the problem.
+We invite you to make your own attempts before consulting it.</p>
+</div>
+</div>
+<details id="admonition-solution" class="admonition example">
+<summary class="admonition-title">
+<p>Solution</p>
+</summary>
+<div>
+<pre><code class="language-java">Image get_image_tag(Image img, String tag) {
+	TagGroup tags = imageGetTagGroup(img)
+
+	Number size
+	tagGroupGetTagAsNumber(tags, tag + &quot; Size&quot;, size)
+
+	Image img_tag := realImage(&quot;&quot;, 8, size)
+	tagGroupGetTagAsArray(tags, tag, img_tag)
+
+	return img_tag
+}
+
+Number mean_maximum_positions(Image img) {
+	Number size = imageGetDimensionSize(img, 0)
+
+	Number mean = 0
+	Number maximums_number = 0
+
+	for (Number i = 1 ; i &lt; size - 1 ; ++i) {
+		if (sum(img[i - 1, 0]) &lt;= sum(img[i, 0]) &amp;&amp; \
+			sum(img[i + 1, 0]) &lt;= sum(img[i, 0])) {
+			++maximums_number
+			mean += (i - mean)/maximums_number
+			++i
+		}
+	}
+
+	return mean
+}
+
+Image deconvolve_inverse_gaussian_mtf(Image img, Number s) {
+	ComplexImage fft := realFft(img)
+
+	Number x_size = imageGetDimensionSize(fft, 0)
+	Number y_size = imageGetDimensionSize(fft, 1)
+
+	Number x_0 = ceil(x_size / 2)
+	Number y_0 = ceil(y_size / 2)
+
+	fft *= exp( \
+		- ((icol - x_0) * s/16 / 2 / x_size)**2 \
+		- ((irow - y_0) * s/16 / 2 / y_size)**2 \
+	)
+
+	return realIfft(fft)
+}
+
+Image remove_polynomial_background(Image src) {
+	Number x_size = imageGetDimensionSize(src, 0)
+	Number y_size = imageGetDimensionSize(src, 1)
+
+	Image xxy := realImage(&quot;&quot;, 8, x_size, y_size)
+	xxy = icol * icol * irow / x_size / x_size / y_size
+	Image  yy := realImage(&quot;&quot;, 8, x_size, y_size)
+	yy  = irow * irow / y_size / y_size
+	Image yyy := realImage(&quot;&quot;, 8, x_size, y_size)
+	yyy = irow * irow * irow / y_size / y_size / y_size
+	
+
+	Image A := realImage(&quot;&quot;, 8, 3, 3)
+	A[0, 0] = dotProduct(xxy, xxy)
+	A[1, 0] = dotProduct(xxy,  yy)
+	A[2, 0] = dotProduct(xxy, yyy)
+	
+	A[0, 1] = dotProduct( yy, xxy)
+	A[1, 1] = dotProduct( yy,  yy)
+	A[2, 1] = dotProduct( yy, yyy)
+	
+	A[0, 2] = dotProduct(yyy, xxy)
+	A[1, 2] = dotProduct(yyy,  yy)
+	A[2, 2] = dotProduct(yyy, yyy)
+
+	Image b := realImage(&quot;&quot;, 8, 3, 1)
+	b[0, 0] = dotProduct(xxy, src)
+	b[1, 0] = dotProduct( yy, src)
+	b[2, 0] = dotProduct(yyy, src)
+
+	Image solution := svDecomposition(A, b)
+	
+	Image result := realImage(&quot;&quot;, 8, x_size, y_size)
+	result = src - (\
+		round(sum(solution[0, 0])) * xxy + \
+		round(sum(solution[1, 0])) *  yy + \
+		round(sum(solution[2, 0])) * yyy   \
+	)
+
+	return result
+}
+
+
+Image src := getFrontImage()
+
+Image pseudo_spectrum := get_image_tag(src, &quot;Pseudospectrum&quot;)
+
+Number mean = mean_maximum_positions(pseudo_spectrum)
+Number s = round( mean / 8 )
+
+Image step1 := deconvolve_inverse_gaussian_mtf(src, s)
+
+Image step2 := remove_polynomial_background(step1)
+
+Image out := mystery_unswap(step2)
+
+Image normalized := min(255, max(0, round(out)))
+showImage(normalized)
+</code></pre>
+</div>
+</details>
+<details id="admonition-solution-including-mystery_unswap" class="admonition example">
+<summary class="admonition-title">
+<p>Solution including <code>mystery_unswap</code></p>
+</summary>
+<div>
+<pre><code class="language-java">Image mystery_unswap(Image img) {
+	Image fft := realFft(img)
+	fft = rect(fft)
+	Image result := realIfft(fft)
+	result *= 2**10
+	return result
+}
+
+Image get_image_tag(Image img, String tag) {
+	TagGroup tags = imageGetTagGroup(img)
+
+	Number size
+	tagGroupGetTagAsNumber(tags, tag + &quot; Size&quot;, size)
+
+	Image img_tag := realImage(&quot;&quot;, 8, size)
+	tagGroupGetTagAsArray(tags, tag, img_tag)
+
+	return img_tag
+}
+
+Number mean_maximum_positions(Image img) {
+	Number size = imageGetDimensionSize(img, 0)
+
+	Number mean = 0
+	Number maximums_number = 0
+
+	for (Number i = 1 ; i &lt; size - 1 ; ++i) {
+		if (sum(img[i - 1, 0]) &lt;= sum(img[i, 0]) &amp;&amp; \
+			sum(img[i + 1, 0]) &lt;= sum(img[i, 0])) {
+			++maximums_number
+			mean += (i - mean)/maximums_number
+			++i
+		}
+	}
+
+	return mean
+}
+
+Image deconvolve_inverse_gaussian_mtf(Image img, Number s) {
+	ComplexImage fft := realFft(img)
+
+	Number x_size = imageGetDimensionSize(fft, 0)
+	Number y_size = imageGetDimensionSize(fft, 1)
+
+	Number x_0 = ceil(x_size / 2)
+	Number y_0 = ceil(y_size / 2)
+
+	fft *= exp( \
+		- ((icol - x_0) * s/16 / 2 / x_size)**2 \
+		- ((irow - y_0) * s/16 / 2 / y_size)**2 \
+	)
+
+	return realIfft(fft)
+}
+
+Image remove_polynomial_background(Image src) {
+	Number x_size = imageGetDimensionSize(src, 0)
+	Number y_size = imageGetDimensionSize(src, 1)
+
+	Image xxy := realImage(&quot;&quot;, 8, x_size, y_size)
+	xxy = icol * icol * irow / x_size / x_size / y_size
+	Image  yy := realImage(&quot;&quot;, 8, x_size, y_size)
+	yy  = irow * irow / y_size / y_size
+	Image yyy := realImage(&quot;&quot;, 8, x_size, y_size)
+	yyy = irow * irow * irow / y_size / y_size / y_size
+	
+
+	Image A := realImage(&quot;&quot;, 8, 3, 3)
+	A[0, 0] = dotProduct(xxy, xxy)
+	A[1, 0] = dotProduct(xxy,  yy)
+	A[2, 0] = dotProduct(xxy, yyy)
+	
+	A[0, 1] = dotProduct( yy, xxy)
+	A[1, 1] = dotProduct( yy,  yy)
+	A[2, 1] = dotProduct( yy, yyy)
+	
+	A[0, 2] = dotProduct(yyy, xxy)
+	A[1, 2] = dotProduct(yyy,  yy)
+	A[2, 2] = dotProduct(yyy, yyy)
+
+	Image b := realImage(&quot;&quot;, 8, 3, 1)
+	b[0, 0] = dotProduct(xxy, src)
+	b[1, 0] = dotProduct( yy, src)
+	b[2, 0] = dotProduct(yyy, src)
+
+	Image solution := svDecomposition(A, b)
+	
+	Image result := realImage(&quot;&quot;, 8, x_size, y_size)
+	result = src - (\
+		round(sum(solution[0, 0])) * xxy + \
+		round(sum(solution[1, 0])) *  yy + \
+		round(sum(solution[2, 0])) * yyy   \
+	)
+
+	return result
+}
+
+
+Image src := getFrontImage()
+
+Image pseudo_spectrum := get_image_tag(src, &quot;Pseudospectrum&quot;)
+
+Number mean = mean_maximum_positions(pseudo_spectrum)
+Number s = round( mean / 8 )
+
+Image step1 := deconvolve_inverse_gaussian_mtf(src, s)
+
+Image step2 := remove_polynomial_background(step1)
+
+Image out := mystery_unswap(step2)
+
+Image normalized := min(255, max(0, round(out)))
+showImage(normalized)
+</code></pre>
+</div>
+</details>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="editor.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mode-rust.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-dawn.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-tomorrow_night.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="mermaid.min.js"></script>
+        <script type="text/javascript" src="mermaid-init.js"></script>
+
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            MathJax.Hub.Register.StartupHook('End', function() {
+                window.setTimeout(window.print, 100);
+            });
+        });
+        </script>
+
+    </body>
+</html>

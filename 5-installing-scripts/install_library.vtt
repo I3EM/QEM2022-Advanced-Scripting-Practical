@@ -1,0 +1,29 @@
+WEBVTT
+
+00:02.506 --> 00:06.986
+Make sure your script is open in Digital Micrograph.
+
+00:07.658 --> 00:10.954
+Click on your script, to make sure it is selected.
+
+00:11.463 --> 00:16.807
+Go to `File > Install Script...`.
+
+00:17.286 --> 00:21.823
+Click on the `Library` tab.
+
+00:22.377 --> 00:26.564
+You may rename your library in the `Name of library?` field
+
+00:27.614 --> 00:34.418
+Select either `Install for the current user only` or
+`Install for all users`, depending on your needs.
+
+00:34.899 --> 00:38.340
+Click `Ok`.
+
+00:38.931 --> 00:41.339
+Your library is now installed.
+
+00:41.886 --> 00:48.127
+You may call its functions from other scripts
