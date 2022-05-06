@@ -1,0 +1,1 @@
+Image pseudo_spectrum := pseudospectrum_with_maximums_at(1000, maximum_positions)

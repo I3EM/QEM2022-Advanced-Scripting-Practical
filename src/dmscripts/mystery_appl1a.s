@@ -1,0 +1,1 @@
+add_image_tag(output, "Pseudospectrum", pseudo_spectrum)

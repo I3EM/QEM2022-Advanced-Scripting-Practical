@@ -1,0 +1,21 @@
+classDef important fill:firebrick
+    classDef starts fill:indianred
+    classDef focus fill:forestgreen
+    classDef done fill:dimgrey
+    classDef obj fill:chocolate
+    subgraph Mystery Processing
+        Start([Start]):::starts-->mystery_image[/Mystery Image/]:::important
+        mystery_image-->swap[Mystery Swap]
+        swap-->polynomial[Addition of Random Polynomial Background]
+        polynomial-->mtf[Application of a Transfert Function]
+        mtf-->tag[Attach Pseudospectrum as Metadata]
+        tag-->coded_image[/Encoded Image/]:::important
+        coded_image-->End([End]):::starts
+        Start-->rand_vec[Random Numbers Generation]
+        rand_vec-->maxs[/Random Numbers/]
+        maxs-->mean[Averaging]
+        mean-->mtf
+        maxs-->gspec[Generate a Pseudospectrum with Input Maximums]
+        gspec-->pspec[/Pseudospectrum/]
+        pspec-->tag
+    end

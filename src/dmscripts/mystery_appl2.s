@@ -1,0 +1,1 @@
+Image with_polynomial := add_random_polynomial(mystery_swapped)
