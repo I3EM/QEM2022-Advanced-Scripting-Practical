@@ -3,7 +3,7 @@ authors = ["gggto"]
 language = "en"
 multilingual = false
 src = "src"
-title = "QEM Pratical: Advanced Script Programming for Image Processing in Digital Micrograph"
+title = "QEM Practical: Advanced Script Programming for Image Processing in Digital Micrograph"
 
 [output.html]
 mathjax-support = true
