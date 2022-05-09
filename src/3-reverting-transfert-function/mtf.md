@@ -1,4 +1,4 @@
-# Reverting the Transfer Function
+# Performing the Inversion
 
 ```mermaid
 graph TD
