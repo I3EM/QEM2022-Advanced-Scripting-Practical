@@ -34,22 +34,3 @@ input and output image, and \\(A\\), \\(B\\) and \\(C\\) are random integer betw
 1 and 10.
 
 We therefore need to somehow recover the exact values of \\(A\\), \\(B\\) and \\(C\\).
-
-~~~admonish info title="`realImage`"
-Allocates a floating-point, real-valued image. Is used as such:
-```java
-Number bytes_number = 8 // Either 4 or 8; defines the precision
-Number x_size = 100
-Number y_size = 100
-Number z_size = 100
-Number t_size = 100
-// 1D image
-Image img := realImage("Image name", bytes_number, x_size)
-// 2D image
-Image img := realImage("Image name", bytes_number, x_size, y_size)
-// 3D image
-Image img := realImage("Image name", bytes_number, x_size, y_size, z_size)
-// 4D image
-Image img := realImage("Image name", bytes_number, x_size, y_size, z_size, t_size)
-```
-~~~

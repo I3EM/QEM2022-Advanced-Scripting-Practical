@@ -21,9 +21,9 @@ Now that we have our pseudospectrum, it is time to actually extract the
 
 We can see that the `s` value is the integer quotient of the Euclidian
 division by 8 of the arithetic mean of the positions of the pseudospectrum
-maximums.
+local maximums.
 
-Therefore, we need to locate the pseudospectrum maximums, perform
+Therefore, we need to locate the pseudospectrum local maximums, perform
 the arithmetic mean, and then the Euclidian division.
 
 The code excerpt above should be sufficient to define the problem, but

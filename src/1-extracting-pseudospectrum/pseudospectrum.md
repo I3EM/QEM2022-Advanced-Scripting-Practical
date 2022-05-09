@@ -25,7 +25,7 @@ The `add_image_tag` function is defined as follows:
 We can see here that the `img` metadata is manipulated through a `TagGroup`
 that we can obtain by calling `imageGetTagGroup` on the image. Then,
 the actual metadata may be set by calling the corresponding `tagGroupSetTagAs*`
-on the `TagGroup` (namely `tagGroupSetTagAsNumber` and `tagGroupSetTagAsImage`
+on the `TagGroup` (namely `tagGroupSetTagAsNumber` and `tagGroupSetTagAsArray`
 in our case).
 
 ~~~admonish info title="`imageGetDimensionSize(img, n)`"
@@ -35,7 +35,7 @@ Returns the size of the `n`-th dimension of the image `img`.
 ## Getting Back Metadata
 
 If we want to get that metadata back, we will need the `tagGroupGetTagAs*` family
-of functions, specifically `tagGroupGetTagAsNumber` and `tagGroupGetTagAsImage`.
+of functions, specifically `tagGroupGetTagAsNumber` and `tagGroupGetTagAsArray`.
 `tagGroupGetTagAsNumber`, for example, is used as such:
 
 ```java
@@ -66,9 +66,28 @@ tag. When the image `size` is known, `tagGroupGetTagAsArray` is
 used as such:
 
 ```java
-Image img_tag := RealImage("", 8, size)
+Image img_tag := realImage("", 8, size)
 tagGroupGetTagAsArray(tags, "Tag Path", img_tag)
 ```
+
+~~~admonish info title="`realImage`"
+Allocates a floating-point, real-valued image. Is used as such:
+```java
+Number bytes_number = 8 // Either 4 or 8; defines the precision
+Number x_size = 100
+Number y_size = 100
+Number z_size = 100
+Number t_size = 100
+// 1D image
+Image img := realImage("Image name", bytes_number, x_size)
+// 2D image
+Image img := realImage("Image name", bytes_number, x_size, y_size)
+// 3D image
+Image img := realImage("Image name", bytes_number, x_size, y_size, z_size)
+// 4D image
+Image img := realImage("Image name", bytes_number, x_size, y_size, z_size, t_size)
+```
+~~~
 
 ## Getting Back the Pseudospectrum
 

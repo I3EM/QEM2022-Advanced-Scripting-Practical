@@ -13,6 +13,20 @@ can try to filter your input to get cleaner result. In our case, this is not
 necessary.
 ~~~
 
+~~~admonish info title="The `sum`-pattern"
+Due to the way the `=` operator work on images, the result of using the
+`[]` operator on an image (like in `img[1, 6]`) is a 0D point image.
+However, we often need a `Number` instead of an `Image`. The most
+reliable way to do that is to use the `sum` function, which gives
+us a `Number`. Since a 0D image has only 1 value, the sum returns this
+value.
+Therefore, if you need to extract the value of say, the pixel `(1, 2)`
+of the image `img`, you would do:
+```java
+sum(img[1, 2])
+```
+~~~
+
 ## Cumulative Averaging
 
 Let \\(u_i\\) be a finite sequence of \\(n\\) values to be averaged, with

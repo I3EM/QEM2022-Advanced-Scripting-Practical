@@ -58,7 +58,7 @@ graph TD
 ```
 
 We see that `s` is actually the the arithmetic mean of the Pseudospectrum
-maximums.
+local maximums.
 
 In order to revert  our transfer function, we must then perform the 3 following
 steps:
