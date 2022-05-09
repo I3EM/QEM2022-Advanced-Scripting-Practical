@@ -14,7 +14,7 @@ code excerpt is as follows:
 {{#include ../dmscripts/mystery_appl1c.s}}
 ```
 
-Were `with_polynomial` is the input image. We see that there is a
+Where `with_polynomial` is the input image. We see that there is a
 parameter `s` that comes into play. In order to revert the function,
 we will need to retrieve its value. If we look at its definition:
 
