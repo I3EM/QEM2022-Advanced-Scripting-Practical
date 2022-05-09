@@ -20,7 +20,7 @@ Now that we have our pseudospectrum, it is time to actually extract the
 ```
 
 We can see that the `s` value is the integer quotient of the Euclidian
-division by 8 of the arithetic mean of the positions of the pseudospectrum
+division by 8 of the arithmetic mean of the positions of the pseudospectrum
 local maximums.
 
 Therefore, we need to locate the pseudospectrum local maximums, perform

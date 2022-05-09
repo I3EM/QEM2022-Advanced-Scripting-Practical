@@ -8,7 +8,7 @@ graph TD
 ```
 
 Once we have got the `s` parameter we were looking for, we can now
-invert the transfert function. The transfert function code is as follows:
+invert the transfer function. The transfer function code is as follows:
 
 ```java
 {{#include ../dmscripts/mystery_appl1c.s}}
@@ -67,7 +67,7 @@ s1  = inverse(inverse_fourier_transform)(input)
 s2  = inverse(multiply_by_f)(s1)
 out = inverse(fourier_transform)(s2)
 ```
-Which expand to:
+Which expands to:
 ```
 s1  = fourier_transform(input)
 s2  = divide_by_f(s1)
@@ -85,8 +85,8 @@ for a single character (the `/=` operator that becomes a `*=` operator):
 ## Current Proposed Implementation
 
 ```admonish warning
-The following is a solution to the problem.
-We invite you to make your own attempts before consulting it.
+A solution to the problem is given below.
+Before consulting it, we encourage you to make your own tries.
 ```
 
 ~~~admonish example title="Solution" collapsible=true

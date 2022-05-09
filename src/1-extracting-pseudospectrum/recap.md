@@ -65,7 +65,7 @@ steps:
 
 1. Extract the Pseudospectrum.
 2. Find its local maxima locations and average them to get the `s` parameter.
-3. Knowing `s`, perform the transfert function inversion on the *encoded image*.
+3. Knowing `s`, perform the transfer function inversion on the *encoded image*.
 
 ~~~admonish info title="The `:=` operator" collapsible=true
 Working with images in Digital Micrograph may be slightly disturbing due to

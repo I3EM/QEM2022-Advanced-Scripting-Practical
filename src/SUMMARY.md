@@ -10,7 +10,7 @@
     - [Averaging Maxima Positions](2-averaging-maximas/maxima.md)
         - [Suggested Approach](2-averaging-maximas/peak_finding.md)
         - [Proposed Implementation](2-averaging-maximas/solution_part1b.md)
-    - [Performing the Inversion](3-reverting-transfert-function/mtf.md)
+    - [Performing the Inversion](3-reverting-transfer-function/mtf.md)
 
 - [Removing the Distortion](4-removing-polynomials/part_2.md)
     - [Suggested Approach](4-removing-polynomials/lls.md)

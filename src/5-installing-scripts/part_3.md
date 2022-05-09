@@ -130,8 +130,8 @@ so that your classmates may reinstall it without trouble.
 ## Final Proposed Implementation
 
 ```admonish warning
-The following is a solution to the problem.
-We invite you to make your own attempts before consulting it.
+A solution to the problem is given below.
+Before consulting it, we encourage you to make your own tries.
 ```
 
 ~~~admonish example title="Solution" collapsible=true

@@ -11,7 +11,7 @@ graph TD
     class mtf,tag,pspec,gspec,maxs,rand,mean,rand_vec done
 ```
 
-Now that the transfert function was undone, let's go to the next step:
+Now that the transfer function was undone, let's go to the next step:
 removing the polynomial background. This was written as:
 
 ```java

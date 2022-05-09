@@ -57,7 +57,7 @@ if (tagGroupGetTagAsNumber(tags, "Tag Path", n)) {
 }
 ```
 
-In the case of `tagGroupGetTagAsArray`, the story become a little
+In the case of `tagGroupGetTagAsArray`, the story becomes a little
 more complicated. `tagGroupGetTagAsArray` will only write data to
 an already allocated image. Therefore, one need to know in advance
 the size of the image, so they can allocate the right amount. That is

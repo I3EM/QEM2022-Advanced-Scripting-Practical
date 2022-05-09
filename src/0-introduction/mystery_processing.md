@@ -22,13 +22,13 @@ undergoes 4 processings:
 
 1. A so-called "Mystery Swap".
 2. The addition of some random polynomial.
-3. The application of a transfert function, *with an external parameter*.
-4. A metadata update, that do not change the image content.
+3. The application of a transfer function, *with an external parameter*.
+4. A metadata update, that does not change the image content.
 
 Which gives us our *encoded image*. To revert back to the original image,
 we will have to go through the following three steps, which will form
 the different parts of the practical:
 
-1. Revert the transfert function.
+1. Revert the transfer function.
 2. Remove the polynomial.
 3. Swap back the image.

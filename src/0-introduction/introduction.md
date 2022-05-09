@@ -7,12 +7,11 @@ uncover the hidden image, step-by-step.
 By doing this, you will hopefully learn how to use DM Scripting to build a
 scientific image processing pipeline, given that you know the mathematical
 deformations the image has undergone. Of course, this practical can only cover
-but a tiny part of the numerical processing field. Researching for existing
-methods or algorithmic bricks and/or designing single problem in the world, so you may want to apply
+but a tiny part of the numerical processing field.
 
 ```admonish note
 In case you get stuck, if you are short on time, or just want to look at a working
-implementation of the algorithms we will program in this pratical, for each task there
+implementation of the algorithms we will program in this practical, for each task there
 will be a *Proposed Implementation* subsection.
 
 We invite you to make your own attempts before consulting them.

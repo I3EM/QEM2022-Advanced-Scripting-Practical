@@ -1,8 +1,8 @@
 # Removing Polynomial: Proposed Implementation
 
 ```admonish warning
-The following is a solution to the problem.
-We invite you to make your own attempts before consulting it.
+A solution to the problem is given below.
+Before consulting it, we encourage you to make your own tries.
 ```
 
 ~~~admonish example title="Polynomial fit solution" collapsible=true
