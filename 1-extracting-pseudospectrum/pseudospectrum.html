@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Extracting the Pseudospectrum - QEM Pratical: Advanced Script Programming for Image Processing in Digital Micrograph</title>
+        <title>Extracting the Pseudospectrum - QEM Practical: Advanced Script Programming for Image Processing in Digital Micrograph</title>
 
 
         <!-- Custom HTML head -->
@@ -114,7 +114,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">QEM Pratical: Advanced Script Programming for Image Processing in Digital Micrograph</h1>
+                    <h1 class="menu-title">QEM Practical: Advanced Script Programming for Image Processing in Digital Micrograph</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -192,7 +192,7 @@ void add_image_tag(Image img, String tag, Image img_tag) {
 <p>We can see here that the <code>img</code> metadata is manipulated through a <code>TagGroup</code>
 that we can obtain by calling <code>imageGetTagGroup</code> on the image. Then,
 the actual metadata may be set by calling the corresponding <code>tagGroupSetTagAs*</code>
-on the <code>TagGroup</code> (namely <code>tagGroupSetTagAsNumber</code> and <code>tagGroupSetTagAsImage</code>
+on the <code>TagGroup</code> (namely <code>tagGroupSetTagAsNumber</code> and <code>tagGroupSetTagAsArray</code>
 in our case).</p>
 <div id="admonition-imagegetdimensionsizeimg-n" class="admonition info">
 <div class="admonition-title">
@@ -204,7 +204,7 @@ in our case).</p>
 </div>
 <h2 id="getting-back-metadata"><a class="header" href="#getting-back-metadata">Getting Back Metadata</a></h2>
 <p>If we want to get that metadata back, we will need the <code>tagGroupGetTagAs*</code> family
-of functions, specifically <code>tagGroupGetTagAsNumber</code> and <code>tagGroupGetTagAsImage</code>.
+of functions, specifically <code>tagGroupGetTagAsNumber</code> and <code>tagGroupGetTagAsArray</code>.
 <code>tagGroupGetTagAsNumber</code>, for example, is used as such:</p>
 <pre><code class="language-java">Number n
 tagGroupGetTagAsNumber(tags, &quot;Tag Path&quot;, n)
@@ -227,9 +227,31 @@ the size of the image, so they can allocate the right amount. That is
 why a common pattern is to store the image size in an other number
 tag. When the image <code>size</code> is known, <code>tagGroupGetTagAsArray</code> is
 used as such:</p>
-<pre><code class="language-java">Image img_tag := RealImage(&quot;&quot;, 8, size)
+<pre><code class="language-java">Image img_tag := realImage(&quot;&quot;, 8, size)
 tagGroupGetTagAsArray(tags, &quot;Tag Path&quot;, img_tag)
 </code></pre>
+<div id="admonition-realimage" class="admonition info">
+<div class="admonition-title">
+<p><code>realImage</code></p>
+</div>
+<div>
+<p>Allocates a floating-point, real-valued image. Is used as such:</p>
+<pre><code class="language-java">Number bytes_number = 8 // Either 4 or 8; defines the precision
+Number x_size = 100
+Number y_size = 100
+Number z_size = 100
+Number t_size = 100
+// 1D image
+Image img := realImage(&quot;Image name&quot;, bytes_number, x_size)
+// 2D image
+Image img := realImage(&quot;Image name&quot;, bytes_number, x_size, y_size)
+// 3D image
+Image img := realImage(&quot;Image name&quot;, bytes_number, x_size, y_size, z_size)
+// 4D image
+Image img := realImage(&quot;Image name&quot;, bytes_number, x_size, y_size, z_size, t_size)
+</code></pre>
+</div>
+</div>
 <h2 id="getting-back-the-pseudospectrum"><a class="header" href="#getting-back-the-pseudospectrum">Getting Back the Pseudospectrum</a></h2>
 <p>Putting thoses functions together, we can easily build an extraction
 function for us to use:</p>

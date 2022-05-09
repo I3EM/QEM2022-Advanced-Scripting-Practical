@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>QEM Pratical: Advanced Script Programming for Image Processing in Digital Micrograph</title>
+        <title>QEM Practical: Advanced Script Programming for Image Processing in Digital Micrograph</title>
         <meta name="robots" content="noindex" />
 
 
@@ -115,7 +115,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">QEM Pratical: Advanced Script Programming for Image Processing in Digital Micrograph</h1>
+                    <h1 class="menu-title">QEM Practical: Advanced Script Programming for Image Processing in Digital Micrograph</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -329,7 +329,7 @@ graph TD
 code excerpt is as follows:</p>
 <pre><code class="language-java">Image output := apply_inverse_gaussian_mtf(with_polynomial, s)
 </code></pre>
-<p>Were <code>with_polynomial</code> is the input image. We see that there is a
+<p>Where <code>with_polynomial</code> is the input image. We see that there is a
 parameter <code>s</code> that comes into play. In order to revert the function,
 we will need to retrieve its value. If we look at its definition:</p>
 <pre><code class="language-java">Image maximum_positions := round(random_image_with_min_dist(4, 10, 990, 50))
@@ -406,7 +406,7 @@ graph TD
     linkStyle 12 stroke:lime, color:lime
 </pre>
 <p>We see that <code>s</code> is actually the the arithmetic mean of the Pseudospectrum
-maximums.</p>
+local maximums.</p>
 <p>In order to revert  our transfer function, we must then perform the 3 following
 steps:</p>
 <ol>
@@ -472,7 +472,8 @@ example(img1)
 Image img2 := img1
 </code></pre>
 </div>
-</details><div style="break-before: page; page-break-before: always;"></div><h1 id="extracting-the-pseudospectrum"><a class="header" href="#extracting-the-pseudospectrum">Extracting the Pseudospectrum</a></h1>
+</details>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="extracting-the-pseudospectrum"><a class="header" href="#extracting-the-pseudospectrum">Extracting the Pseudospectrum</a></h1>
 <pre class="mermaid">
 graph TD
     classDef important fill:firebrick
@@ -518,7 +519,7 @@ void add_image_tag(Image img, String tag, Image img_tag) {
 <p>We can see here that the <code>img</code> metadata is manipulated through a <code>TagGroup</code>
 that we can obtain by calling <code>imageGetTagGroup</code> on the image. Then,
 the actual metadata may be set by calling the corresponding <code>tagGroupSetTagAs*</code>
-on the <code>TagGroup</code> (namely <code>tagGroupSetTagAsNumber</code> and <code>tagGroupSetTagAsImage</code>
+on the <code>TagGroup</code> (namely <code>tagGroupSetTagAsNumber</code> and <code>tagGroupSetTagAsArray</code>
 in our case).</p>
 <div id="admonition-imagegetdimensionsizeimg-n" class="admonition info">
 <div class="admonition-title">
@@ -530,7 +531,7 @@ in our case).</p>
 </div>
 <h2 id="getting-back-metadata"><a class="header" href="#getting-back-metadata">Getting Back Metadata</a></h2>
 <p>If we want to get that metadata back, we will need the <code>tagGroupGetTagAs*</code> family
-of functions, specifically <code>tagGroupGetTagAsNumber</code> and <code>tagGroupGetTagAsImage</code>.
+of functions, specifically <code>tagGroupGetTagAsNumber</code> and <code>tagGroupGetTagAsArray</code>.
 <code>tagGroupGetTagAsNumber</code>, for example, is used as such:</p>
 <pre><code class="language-java">Number n
 tagGroupGetTagAsNumber(tags, &quot;Tag Path&quot;, n)
@@ -553,9 +554,31 @@ the size of the image, so they can allocate the right amount. That is
 why a common pattern is to store the image size in an other number
 tag. When the image <code>size</code> is known, <code>tagGroupGetTagAsArray</code> is
 used as such:</p>
-<pre><code class="language-java">Image img_tag := RealImage(&quot;&quot;, 8, size)
+<pre><code class="language-java">Image img_tag := realImage(&quot;&quot;, 8, size)
 tagGroupGetTagAsArray(tags, &quot;Tag Path&quot;, img_tag)
 </code></pre>
+<div id="admonition-realimage" class="admonition info">
+<div class="admonition-title">
+<p><code>realImage</code></p>
+</div>
+<div>
+<p>Allocates a floating-point, real-valued image. Is used as such:</p>
+<pre><code class="language-java">Number bytes_number = 8 // Either 4 or 8; defines the precision
+Number x_size = 100
+Number y_size = 100
+Number z_size = 100
+Number t_size = 100
+// 1D image
+Image img := realImage(&quot;Image name&quot;, bytes_number, x_size)
+// 2D image
+Image img := realImage(&quot;Image name&quot;, bytes_number, x_size, y_size)
+// 3D image
+Image img := realImage(&quot;Image name&quot;, bytes_number, x_size, y_size, z_size)
+// 4D image
+Image img := realImage(&quot;Image name&quot;, bytes_number, x_size, y_size, z_size, t_size)
+</code></pre>
+</div>
+</div>
 <h2 id="getting-back-the-pseudospectrum"><a class="header" href="#getting-back-the-pseudospectrum">Getting Back the Pseudospectrum</a></h2>
 <p>Putting thoses functions together, we can easily build an extraction
 function for us to use:</p>
@@ -654,8 +677,8 @@ Image pseudo_spectrum := pseudospectrum_with_maximums_at(1000, maximum_positions
 </code></pre>
 <p>We can see that the <code>s</code> value is the integer quotient of the Euclidian
 division by 8 of the arithetic mean of the positions of the pseudospectrum
-maximums.</p>
-<p>Therefore, we need to locate the pseudospectrum maximums, perform
+local maximums.</p>
+<p>Therefore, we need to locate the pseudospectrum local maximums, perform
 the arithmetic mean, and then the Euclidian division.</p>
 <p>The code excerpt above should be sufficient to define the problem, but
 in case implementation details are desired, here they are:</p>
@@ -765,6 +788,23 @@ can try to filter your input to get cleaner result. In our case, this is not
 necessary.</p>
 </div>
 </div>
+<div id="admonition-the-sum-pattern" class="admonition info">
+<div class="admonition-title">
+<p>The <code>sum</code>-pattern</p>
+</div>
+<div>
+<p>Due to the way the <code>=</code> operator work on images, the result of using the
+<code>[]</code> operator on an image (like in <code>img[1, 6]</code>) is a 0D point image.
+However, we often need a <code>Number</code> instead of an <code>Image</code>. The most
+reliable way to do that is to use the <code>sum</code> function, which gives
+us a <code>Number</code>. Since a 0D image has only 1 value, the sum returns this
+value.
+Therefore, if you need to extract the value of say, the pixel <code>(1, 2)</code>
+of the image <code>img</code>, you would do:</p>
+<pre><code class="language-java">sum(img[1, 2])
+</code></pre>
+</div>
+</div>
 <h2 id="cumulative-averaging"><a class="header" href="#cumulative-averaging">Cumulative Averaging</a></h2>
 <p>Let \(u_i\) be a finite sequence of \(n\) values to be averaged, with
 \(n, i \in \mathbb{N}, i &lt; n\).</p>
@@ -862,7 +902,7 @@ Number s = round( mean / 8 )
 result(s + &quot;\n&quot;)
 </code></pre>
 </div>
-</details><div style="break-before: page; page-break-before: always;"></div><h1 id="reverting-the-transfer-function-1"><a class="header" href="#reverting-the-transfer-function-1">Reverting the Transfer Function</a></h1>
+</details><div style="break-before: page; page-break-before: always;"></div><h1 id="performing-the-inversion"><a class="header" href="#performing-the-inversion">Performing the Inversion</a></h1>
 <pre class="mermaid">
 graph TD
     classDef important fill:firebrick
@@ -1153,39 +1193,18 @@ equation:</p>
 input and output image, and \(A\), \(B\) and \(C\) are random integer between
 1 and 10.</p>
 <p>We therefore need to somehow recover the exact values of \(A\), \(B\) and \(C\).</p>
-<div id="admonition-realimage" class="admonition info">
-<div class="admonition-title">
-<p><code>realImage</code></p>
-</div>
-<div>
-<p>Allocates a floating-point, real-valued image. Is used as such:</p>
-<pre><code class="language-java">Number bytes_number = 8 // Either 4 or 8; defines the precision
-Number x_size = 100
-Number y_size = 100
-Number z_size = 100
-Number t_size = 100
-// 1D image
-Image img := realImage(&quot;Image name&quot;, bytes_number, x_size)
-// 2D image
-Image img := realImage(&quot;Image name&quot;, bytes_number, x_size, y_size)
-// 3D image
-Image img := realImage(&quot;Image name&quot;, bytes_number, x_size, y_size, z_size)
-// 4D image
-Image img := realImage(&quot;Image name&quot;, bytes_number, x_size, y_size, z_size, t_size)
-</code></pre>
-</div>
-</div><div style="break-before: page; page-break-before: always;"></div><h1 id="suggested-approach-linear-least-squares"><a class="header" href="#suggested-approach-linear-least-squares">Suggested Approach: Linear Least Squares</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="suggested-approach-linear-least-squares"><a class="header" href="#suggested-approach-linear-least-squares">Suggested Approach: Linear Least Squares</a></h1>
 <p><em>Linear Least Squares</em> is a method to find a solution to the problem:</p>
 <p>\[ f(x, y, \dots) = A a(x, y, \dots) + B b(x, y, \dots) + \dots + r(x, y, \dots) \]</p>
 <p>Where \(f\) is a function that you know and want to express in terms of a linear
 combination of known functions \(a\), \(b\), \(c\)... Since such a linear
-combination usually do not exist, there is always a residual function \(r\). 
+combination usually does not exist, there is always a residual function \(r\). 
 The goal is then to find a linear combination (in other words, the values for the
 coefficients \(A\), \(B\), ...) that is the closest to \(f\), and so to make
 \(r\) as small as possible (with respect to the quadratic \(L_2\) norm, hence the
 name <em>Least Squares</em>)).</p>
 <p>In that equation, \(f\), \(r\), \(a\), \(b\), ... may take any number
-of variables and those may be integers (which means it can be a \(n\]-dimensional
+of variables and those may be integers (which means it can be a \(n\)-dimensional
 image for example); their return value may also be multidimensional.</p>
 <p>This method is usually used in 2 contexts:</p>
 <ol>
@@ -1300,14 +1319,14 @@ showImage(x)
 <p>This script solves the following matrix equation:</p>
 <p>\[
 \begin{pmatrix}
-1 &amp; 2 &amp; 3 \
-4 &amp; 5 &amp; 6 \
+1 &amp; 2 &amp; 3 \\
+4 &amp; 5 &amp; 6 \\
 7 &amp; 8 &amp; 9
 \end{pmatrix}
 \pmb{x} =
 \begin{pmatrix}
-10 \
-11 \
+10 \\
+11 \\
 12
 \end{pmatrix}
 \]</p>
@@ -1602,7 +1621,7 @@ start-up, and every global state and function will be kept in memory until
 shutdown (or explicit removal).</p>
 <p>This mode may also be used for arbitrary code execution at start-up, for example
 to automatically setup a connection with our microscope, to print some instrument
-state in the <code>Results</code> window, to open the last closed image...</p>
+state in the <code>Output</code> window, to open the last closed image...</p>
 </li>
 </ol>
 <details id="admonition-installing-a-script-as-a-library" class="admonition tip">
@@ -1674,7 +1693,7 @@ otherwise stay here.</li>
 </details>
 <h2 id="installing-the-mystery-unswap"><a class="header" href="#installing-the-mystery-unswap">Installing the Mystery Unswap</a></h2>
 <p>If you did not already, download the <a href="5-installing-scripts/../dmscripts/mystery_unswap.s" download>library file</a>.
-Then install it <em>as a script</em>, following the explanations from the previous section.</p>
+Then install it <em>as a library</em>, following the explanations from the previous section.</p>
 <p>You may then use it with the following line:</p>
 <pre><code class="language-java">Image out := mystery_unswap(step2)
 </code></pre>

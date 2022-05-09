@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Reverting the Transfer Function - QEM Pratical: Advanced Script Programming for Image Processing in Digital Micrograph</title>
+        <title>Reverting the Transfer Function - QEM Practical: Advanced Script Programming for Image Processing in Digital Micrograph</title>
 
 
         <!-- Custom HTML head -->
@@ -114,7 +114,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">QEM Pratical: Advanced Script Programming for Image Processing in Digital Micrograph</h1>
+                    <h1 class="menu-title">QEM Practical: Advanced Script Programming for Image Processing in Digital Micrograph</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -177,7 +177,7 @@ graph TD
 code excerpt is as follows:</p>
 <pre><code class="language-java">Image output := apply_inverse_gaussian_mtf(with_polynomial, s)
 </code></pre>
-<p>Were <code>with_polynomial</code> is the input image. We see that there is a
+<p>Where <code>with_polynomial</code> is the input image. We see that there is a
 parameter <code>s</code> that comes into play. In order to revert the function,
 we will need to retrieve its value. If we look at its definition:</p>
 <pre><code class="language-java">Image maximum_positions := round(random_image_with_min_dist(4, 10, 990, 50))
@@ -254,7 +254,7 @@ graph TD
     linkStyle 12 stroke:lime, color:lime
 </pre>
 <p>We see that <code>s</code> is actually the the arithmetic mean of the Pseudospectrum
-maximums.</p>
+local maximums.</p>
 <p>In order to revert  our transfer function, we must then perform the 3 following
 steps:</p>
 <ol>
@@ -321,6 +321,7 @@ Image img2 := img1
 </code></pre>
 </div>
 </details>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">

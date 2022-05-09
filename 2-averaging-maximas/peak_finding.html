@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Suggested Approach - QEM Pratical: Advanced Script Programming for Image Processing in Digital Micrograph</title>
+        <title>Suggested Approach - QEM Practical: Advanced Script Programming for Image Processing in Digital Micrograph</title>
 
 
         <!-- Custom HTML head -->
@@ -114,7 +114,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">QEM Pratical: Advanced Script Programming for Image Processing in Digital Micrograph</h1>
+                    <h1 class="menu-title">QEM Practical: Advanced Script Programming for Image Processing in Digital Micrograph</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -160,6 +160,23 @@ the simplest is probably to rely on the fact that, for a discrete function
 <p>This method may not work well in the presence of noise. In that case, you
 can try to filter your input to get cleaner result. In our case, this is not 
 necessary.</p>
+</div>
+</div>
+<div id="admonition-the-sum-pattern" class="admonition info">
+<div class="admonition-title">
+<p>The <code>sum</code>-pattern</p>
+</div>
+<div>
+<p>Due to the way the <code>=</code> operator work on images, the result of using the
+<code>[]</code> operator on an image (like in <code>img[1, 6]</code>) is a 0D point image.
+However, we often need a <code>Number</code> instead of an <code>Image</code>. The most
+reliable way to do that is to use the <code>sum</code> function, which gives
+us a <code>Number</code>. Since a 0D image has only 1 value, the sum returns this
+value.
+Therefore, if you need to extract the value of say, the pixel <code>(1, 2)</code>
+of the image <code>img</code>, you would do:</p>
+<pre><code class="language-java">sum(img[1, 2])
+</code></pre>
 </div>
 </div>
 <h2 id="cumulative-averaging"><a class="header" href="#cumulative-averaging">Cumulative Averaging</a></h2>
