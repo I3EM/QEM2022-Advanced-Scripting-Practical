@@ -6,14 +6,14 @@
 
 Where \\(f\\) is a function that you know and want to express in terms of a linear
 combination of known functions \\(a\\), \\(b\\), \\(c\\)... Since such a linear
-combination usually do not exist, there is always a residual function \\(r\\). 
+combination usually does not exist, there is always a residual function \\(r\\). 
 The goal is then to find a linear combination (in other words, the values for the
 coefficients \\(A\\), \\(B\\), ...) that is the closest to \\(f\\), and so to make
 \\(r\\) as small as possible (with respect to the quadratic \\(L_2\\) norm, hence the
 name *Least Squares*)).
 
 In that equation, \\(f\\), \\(r\\), \\(a\\), \\(b\\), ... may take any number
-of variables and those may be integers (which means it can be a \\(n\\]-dimensional
+of variables and those may be integers (which means it can be a \\(n\\)-dimensional
 image for example); their return value may also be multidimensional.
 
 This method is usually used in 2 contexts:
@@ -124,14 +124,14 @@ This script solves the following matrix equation:
 
 \\[
     \begin{pmatrix}
-    1 & 2 & 3 \\
-    4 & 5 & 6 \\
+    1 & 2 & 3 \\\\
+    4 & 5 & 6 \\\\
     7 & 8 & 9
     \end{pmatrix}
     \pmb{x} =
     \begin{pmatrix}
-    10 \\
-    11 \\
+    10 \\\\
+    11 \\\\
     12
     \end{pmatrix}
 \\]
