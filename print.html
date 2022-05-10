@@ -86,7 +86,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="0-introduction/introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="0-introduction/using-this-document.html">How to Use this Document</a></li><li class="chapter-item expanded affix "><a href="0-introduction/mystery_processing.html">Overview of the Mystery Processing</a></li><li class="chapter-item expanded "><a href="1-extracting-pseudospectrum/recap.html"><strong aria-hidden="true">1.</strong> Reverting the Transfer Function</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="1-extracting-pseudospectrum/pseudospectrum.html"><strong aria-hidden="true">1.1.</strong> Extracting the Pseudospectrum</a></li><li class="chapter-item expanded "><a href="2-averaging-maximas/maxima.html"><strong aria-hidden="true">1.2.</strong> Averaging Maxima Positions</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="2-averaging-maximas/peak_finding.html"><strong aria-hidden="true">1.2.1.</strong> Suggested Approach</a></li><li class="chapter-item expanded "><a href="2-averaging-maximas/solution_part1b.html"><strong aria-hidden="true">1.2.2.</strong> Proposed Implementation</a></li></ol></li><li class="chapter-item expanded "><a href="3-reverting-transfert-function/mtf.html"><strong aria-hidden="true">1.3.</strong> Performing the Inversion</a></li></ol></li><li class="chapter-item expanded "><a href="4-removing-polynomials/part_2.html"><strong aria-hidden="true">2.</strong> Removing the Distortion</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="4-removing-polynomials/lls.html"><strong aria-hidden="true">2.1.</strong> Suggested Approach</a></li><li class="chapter-item expanded "><a href="4-removing-polynomials/solution_part2.html"><strong aria-hidden="true">2.2.</strong> Proposed Implementation</a></li></ol></li><li class="chapter-item expanded "><a href="5-installing-scripts/part_3.html"><strong aria-hidden="true">3.</strong> Reconstructing the Image</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="6-appendices/references.html">To Go Further</a></li><li class="chapter-item expanded affix "><a href="6-appendices/mystery_processing_complete.html">Mystery Processing: Complete Script</a></li><li class="chapter-item expanded affix "><a href="6-appendices/proposed_solution_complete.html">Proposed Solution: Complete Script</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="0-introduction/introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="0-introduction/using-this-document.html">How to Use this Document</a></li><li class="chapter-item expanded affix "><a href="0-introduction/mystery_processing.html">Overview of the Mystery Processing</a></li><li class="chapter-item expanded affix "><a href="0-introduction/pick_image.html">Pick an Image</a></li><li class="chapter-item expanded "><a href="1-extracting-pseudospectrum/recap.html"><strong aria-hidden="true">1.</strong> Reverting the Transfer Function</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="1-extracting-pseudospectrum/pseudospectrum.html"><strong aria-hidden="true">1.1.</strong> Extracting the Pseudospectrum</a></li><li class="chapter-item expanded "><a href="2-averaging-maximas/maxima.html"><strong aria-hidden="true">1.2.</strong> Averaging Maxima Positions</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="2-averaging-maximas/peak_finding.html"><strong aria-hidden="true">1.2.1.</strong> Suggested Approach</a></li><li class="chapter-item expanded "><a href="2-averaging-maximas/solution_part1b.html"><strong aria-hidden="true">1.2.2.</strong> Proposed Implementation</a></li></ol></li><li class="chapter-item expanded "><a href="3-reverting-transfer-function/mtf.html"><strong aria-hidden="true">1.3.</strong> Performing the Inversion</a></li></ol></li><li class="chapter-item expanded "><a href="4-removing-polynomials/part_2.html"><strong aria-hidden="true">2.</strong> Removing the Distortion</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="4-removing-polynomials/lls.html"><strong aria-hidden="true">2.1.</strong> Suggested Approach</a></li><li class="chapter-item expanded "><a href="4-removing-polynomials/solution_part2.html"><strong aria-hidden="true">2.2.</strong> Proposed Implementation</a></li></ol></li><li class="chapter-item expanded "><a href="5-installing-scripts/part_3.html"><strong aria-hidden="true">3.</strong> Reconstructing the Image</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="6-appendices/references.html">To Go Further</a></li><li class="chapter-item expanded affix "><a href="6-appendices/mystery_processing_complete.html">Mystery Processing: Complete Script</a></li><li class="chapter-item expanded affix "><a href="6-appendices/proposed_solution_complete.html">Proposed Solution: Complete Script</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -154,15 +154,14 @@ uncover the hidden image, step-by-step.</p>
 <p>By doing this, you will hopefully learn how to use DM Scripting to build a
 scientific image processing pipeline, given that you know the mathematical
 deformations the image has undergone. Of course, this practical can only cover
-but a tiny part of the numerical processing field. Researching for existing
-methods or algorithmic bricks and/or designing single problem in the world, so you may want to apply</p>
+but a tiny part of the numerical processing field.</p>
 <div id="admonition-note" class="admonition note">
 <div class="admonition-title">
 <p>Note</p>
 </div>
 <div>
 <p>In case you get stuck, if you are short on time, or just want to look at a working
-implementation of the algorithms we will program in this pratical, for each task there
+implementation of the algorithms we will program in this practical, for each task there
 will be a <em>Proposed Implementation</em> subsection.</p>
 <p>We invite you to make your own attempts before consulting them.</p>
 </div>
@@ -287,17 +286,29 @@ undergoes 4 processings:</p>
 <ol>
 <li>A so-called &quot;Mystery Swap&quot;.</li>
 <li>The addition of some random polynomial.</li>
-<li>The application of a transfert function, <em>with an external parameter</em>.</li>
-<li>A metadata update, that do not change the image content.</li>
+<li>The application of a transfer function, <em>with an external parameter</em>.</li>
+<li>A metadata update, that does not change the image content.</li>
 </ol>
 <p>Which gives us our <em>encoded image</em>. To revert back to the original image,
 we will have to go through the following three steps, which will form
 the different parts of the practical:</p>
 <ol>
-<li>Revert the transfert function.</li>
+<li>Revert the transfer function.</li>
 <li>Remove the polynomial.</li>
 <li>Swap back the image.</li>
 </ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pick-an-image"><a class="header" href="#pick-an-image">Pick an Image</a></h1>
+<p><a href="0-introduction/../Encoded/Gruel - Almost There.dm4" download>Gruel - Almost There (CC-BY-NC)</a></p>
+<p><a href="0-introduction/../Encoded/Gruel - Strange River.dm4" download>Gruel - Strange River (CC-BY-NC)</a></p>
+<p><a href="0-introduction/../Encoded/Gruel - Yummy.dm4" download>Gruel - Yummy (CC-BY-NC)</a></p>
+<p><a href="0-introduction/../Encoded/KeoT - Ruines et demeure.dm4" download>KeoT - Ruines et demeure (CC-0)</a></p>
+<p><a href="0-introduction/../Encoded/KeoT - Tour.dm4" download>KeoT - Tour (CC-0)</a></p>
+<p><a href="0-introduction/../Encoded/Lazerbag - Shiny.dm4" download>Lazerbag - Shiny (CC-BY-SA)</a></p>
+<p><a href="0-introduction/../Encoded/Lazerbag - Sink.dm4" download>Lazerbag - Sink (CC-BY-SA)</a></p>
+<p><a href="0-introduction/../Encoded/Masseboeuf - Blue Sky.dm4" download>Masseboeuf - Blue Sky</a></p>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<p><a href="https://twitter.com/KeoTauteur">KeoT's Twitter</a></p>
+<p><a href="https://www.deviantart.com/lazerbag">Lazerbag's DeviantArt</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="reverting-the-transfer-function"><a class="header" href="#reverting-the-transfer-function">Reverting the Transfer Function</a></h1>
 <pre class="mermaid">
 graph TD
@@ -412,7 +423,7 @@ steps:</p>
 <ol>
 <li>Extract the Pseudospectrum.</li>
 <li>Find its local maxima locations and average them to get the <code>s</code> parameter.</li>
-<li>Knowing <code>s</code>, perform the transfert function inversion on the <em>encoded image</em>.</li>
+<li>Knowing <code>s</code>, perform the transfer function inversion on the <em>encoded image</em>.</li>
 </ol>
 <details id="admonition-the--operator" class="admonition info">
 <summary class="admonition-title">
@@ -547,7 +558,7 @@ if (tagGroupGetTagAsNumber(tags, &quot;Tag Path&quot;, n)) {
     result(&quot;The tag 'Tag Path' does not exist on this image!\n&quot;)
 }
 </code></pre>
-<p>In the case of <code>tagGroupGetTagAsArray</code>, the story become a little
+<p>In the case of <code>tagGroupGetTagAsArray</code>, the story becomes a little
 more complicated. <code>tagGroupGetTagAsArray</code> will only write data to
 an already allocated image. Therefore, one need to know in advance
 the size of the image, so they can allocate the right amount. That is
@@ -676,7 +687,7 @@ Number s = round( mean(maximum_positions) / 8 )
 Image pseudo_spectrum := pseudospectrum_with_maximums_at(1000, maximum_positions)
 </code></pre>
 <p>We can see that the <code>s</code> value is the integer quotient of the Euclidian
-division by 8 of the arithetic mean of the positions of the pseudospectrum
+division by 8 of the arithmetic mean of the positions of the pseudospectrum
 local maximums.</p>
 <p>Therefore, we need to locate the pseudospectrum local maximums, perform
 the arithmetic mean, and then the Euclidian division.</p>
@@ -828,8 +839,8 @@ values so you do not need to store them.</p>
 <p>Warning</p>
 </div>
 <div>
-<p>The following is a solution to the problem.
-We invite you to make your own attempts before consulting it.</p>
+<p>A solution to the problem is given below.
+Before consulting it, we encourage you to make your own tries.</p>
 </div>
 </div>
 <details id="admonition-maxima-positions-averaging-solution" class="admonition example">
@@ -930,7 +941,7 @@ graph TD
     class tag,pspec,gspec,maxs,rand,mean,rand_vec done
 </pre>
 <p>Once we have got the <code>s</code> parameter we were looking for, we can now
-invert the transfert function. The transfert function code is as follows:</p>
+invert the transfer function. The transfer function code is as follows:</p>
 <pre><code class="language-java">Image output := apply_inverse_gaussian_mtf(with_polynomial, s)
 </code></pre>
 <p>Where <code>apply_inverse_gaussian_mtf</code> is defined as:</p>
@@ -999,7 +1010,7 @@ operations, and take the inverse of every operator, so this gives us:</p>
 s2  = inverse(multiply_by_f)(s1)
 out = inverse(fourier_transform)(s2)
 </code></pre>
-<p>Which expand to:</p>
+<p>Which expands to:</p>
 <pre><code>s1  = fourier_transform(input)
 s2  = divide_by_f(s1)
 out = inverse_fourier_transform(s2)
@@ -1030,8 +1041,8 @@ for a single character (the <code>/=</code> operator that becomes a <code>*=</co
 <p>Warning</p>
 </div>
 <div>
-<p>The following is a solution to the problem.
-We invite you to make your own attempts before consulting it.</p>
+<p>A solution to the problem is given below.
+Before consulting it, we encourage you to make your own tries.</p>
 </div>
 </div>
 <details id="admonition-solution" class="admonition example">
@@ -1154,7 +1165,7 @@ graph TD
     class polynomial focus
     class mtf,tag,pspec,gspec,maxs,rand,mean,rand_vec done
 </pre>
-<p>Now that the transfert function was undone, let's go to the next step:
+<p>Now that the transfer function was undone, let's go to the next step:
 removing the polynomial background. This was written as:</p>
 <pre><code class="language-java">Image with_polynomial := add_random_polynomial(mystery_swapped)
 </code></pre>
@@ -1368,7 +1379,7 @@ practical)</li>
 </ol>
 </div>
 </div>
-<h2 id="references"><a class="header" href="#references">References</a></h2>
+<h2 id="references-1"><a class="header" href="#references-1">References</a></h2>
 <p>Lawson, Charles L.; Hanson Richard J. (1995). <em>Solving Least Square Problems</em>, SIAM</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="removing-polynomial-proposed-implementation"><a class="header" href="#removing-polynomial-proposed-implementation">Removing Polynomial: Proposed Implementation</a></h1>
 <div id="admonition-warning" class="admonition warning">
@@ -1376,8 +1387,8 @@ practical)</li>
 <p>Warning</p>
 </div>
 <div>
-<p>The following is a solution to the problem.
-We invite you to make your own attempts before consulting it.</p>
+<p>A solution to the problem is given below.
+Before consulting it, we encourage you to make your own tries.</p>
 </div>
 </div>
 <details id="admonition-polynomial-fit-solution" class="admonition example">
@@ -1712,8 +1723,8 @@ so that your classmates may reinstall it without trouble.</p>
 <p>Warning</p>
 </div>
 <div>
-<p>The following is a solution to the problem.
-We invite you to make your own attempts before consulting it.</p>
+<p>A solution to the problem is given below.
+Before consulting it, we encourage you to make your own tries.</p>
 </div>
 </div>
 <details id="admonition-solution" class="admonition example">
@@ -2034,8 +2045,8 @@ showImage(output)
 <p>Warning</p>
 </div>
 <div>
-<p>The following is a solution to the problem.
-We invite you to make your own attempts before consulting it.</p>
+<p>A solution to the problem is given below.
+Before consulting it, we encourage you to make your own tries.</p>
 </div>
 </div>
 <details id="admonition-solution" class="admonition example">
