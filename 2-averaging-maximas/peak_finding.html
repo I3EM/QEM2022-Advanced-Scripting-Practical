@@ -85,7 +85,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../0-introduction/introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../0-introduction/using-this-document.html">How to Use this Document</a></li><li class="chapter-item expanded affix "><a href="../0-introduction/mystery_processing.html">Overview of the Mystery Processing</a></li><li class="chapter-item expanded affix "><a href="../0-introduction/pick_image.html">Pick an Image</a></li><li class="chapter-item expanded "><a href="../1-extracting-pseudospectrum/recap.html"><strong aria-hidden="true">1.</strong> Reverting the Transfer Function</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../1-extracting-pseudospectrum/pseudospectrum.html"><strong aria-hidden="true">1.1.</strong> Extracting the Pseudospectrum</a></li><li class="chapter-item expanded "><a href="../2-averaging-maximas/maxima.html"><strong aria-hidden="true">1.2.</strong> Averaging Maxima Positions</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2-averaging-maximas/peak_finding.html" class="active"><strong aria-hidden="true">1.2.1.</strong> Suggested Approach</a></li><li class="chapter-item expanded "><a href="../2-averaging-maximas/solution_part1b.html"><strong aria-hidden="true">1.2.2.</strong> Proposed Implementation</a></li></ol></li><li class="chapter-item expanded "><a href="../3-reverting-transfer-function/mtf.html"><strong aria-hidden="true">1.3.</strong> Performing the Inversion</a></li></ol></li><li class="chapter-item expanded "><a href="../4-removing-polynomials/part_2.html"><strong aria-hidden="true">2.</strong> Removing the Distortion</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../4-removing-polynomials/lls.html"><strong aria-hidden="true">2.1.</strong> Suggested Approach</a></li><li class="chapter-item expanded "><a href="../4-removing-polynomials/solution_part2.html"><strong aria-hidden="true">2.2.</strong> Proposed Implementation</a></li></ol></li><li class="chapter-item expanded "><a href="../5-installing-scripts/part_3.html"><strong aria-hidden="true">3.</strong> Reconstructing the Image</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../6-appendices/references.html">To Go Further</a></li><li class="chapter-item expanded affix "><a href="../6-appendices/mystery_processing_complete.html">Mystery Processing: Complete Script</a></li><li class="chapter-item expanded affix "><a href="../6-appendices/proposed_solution_complete.html">Proposed Solution: Complete Script</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../0-introduction/introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../0-introduction/using-this-document.html">How to Use this Document</a></li><li class="chapter-item expanded affix "><a href="../0-introduction/pick_image.html">Pick an Image</a></li><li class="chapter-item expanded affix "><a href="../0-introduction/mystery_processing.html">Overview of the Mystery Processing</a></li><li class="chapter-item expanded "><a href="../1-extracting-pseudospectrum/recap.html"><strong aria-hidden="true">1.</strong> Reverting the Transfer Function</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../1-extracting-pseudospectrum/pseudospectrum.html"><strong aria-hidden="true">1.1.</strong> Extracting the Pseudospectrum</a></li><li class="chapter-item expanded "><a href="../2-averaging-maximas/maxima.html"><strong aria-hidden="true">1.2.</strong> Averaging Maxima Positions</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2-averaging-maximas/peak_finding.html" class="active"><strong aria-hidden="true">1.2.1.</strong> Suggested Approach</a></li><li class="chapter-item expanded "><a href="../2-averaging-maximas/solution_part1b.html"><strong aria-hidden="true">1.2.2.</strong> Proposed Implementation</a></li></ol></li><li class="chapter-item expanded "><a href="../3-reverting-transfer-function/mtf.html"><strong aria-hidden="true">1.3.</strong> Performing the Inversion</a></li></ol></li><li class="chapter-item expanded "><a href="../4-removing-polynomials/part_2.html"><strong aria-hidden="true">2.</strong> Removing the Distortion</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../4-removing-polynomials/lls.html"><strong aria-hidden="true">2.1.</strong> Suggested Approach</a></li><li class="chapter-item expanded "><a href="../4-removing-polynomials/solution_part2.html"><strong aria-hidden="true">2.2.</strong> Proposed Implementation</a></li></ol></li><li class="chapter-item expanded "><a href="../5-installing-scripts/part_3.html"><strong aria-hidden="true">3.</strong> Reconstructing the Image</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../6-appendices/references.html">To Go Further</a></li><li class="chapter-item expanded affix "><a href="../6-appendices/mystery_processing_complete.html">Mystery Processing: Complete Script</a></li><li class="chapter-item expanded affix "><a href="../6-appendices/proposed_solution_complete.html">Proposed Solution: Complete Script</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -179,14 +179,18 @@ of the image <code>img</code>, you would do:</p>
 </code></pre>
 </div>
 </div>
-<h2 id="cumulative-averaging"><a class="header" href="#cumulative-averaging">Cumulative Averaging</a></h2>
+<h2 id="averaging"><a class="header" href="#averaging">Averaging</a></h2>
 <p>Let \(u_i\) be a finite sequence of \(n\) values to be averaged, with
 \(n, i \in \mathbb{N}, i &lt; n\).</p>
 <p>The mean \(\overline{u}\) is defined as:
 \[\overline{u} = \frac{1}{n} \sum_{i=0}^{n-1} u_i\]</p>
-<p>While one could calculate a mean by computing this simple
-and efficient sum, it is sometime more convenient to use
-the cumulative mean \(\overline{u}_i\):
+<details id="admonition-optional-cumulative-averaging" class="admonition info">
+<summary class="admonition-title">
+<p>Optional: cumulative averaging</p>
+</summary>
+<div>
+<p>Sometimes, you need to maintain an average of the values you already got.
+In this cases, it is more convenient to use the cumulative mean \(\overline{u}_i\):
 \[
 \begin{aligned}
 \overline{u}_0       &amp; = u_0 \\
@@ -194,8 +198,131 @@ the cumulative mean \(\overline{u}_i\):
 \overline{u}          &amp; = \overline{u}_{n}
 \end{aligned}
 \]</p>
-<p>With this last algorithm, you can compute the average as you get new
-values so you do not need to store them.</p>
+</div>
+</details>
+<h2 id="recap-how-do-i"><a class="header" href="#recap-how-do-i">Recap: How do I...</a></h2>
+<details id="admonition--print-a-number-or-a-string" class="admonition info">
+<summary class="admonition-title">
+<p>... print a number or a string?</p>
+</summary>
+<div>
+<p>To print something in Digital Micrograph in the <code>Output</code> window, you use
+the <code>result</code> function:</p>
+<pre><code class="language-java">result(&quot;Here I print a string\n&quot;)
+result(&quot;And now, here's a number:&quot; + 42 + &quot;\n&quot;)
+result(&quot;I can also print the number alone :&quot;)
+result(42 + &quot;\n&quot;)
+</code></pre>
+<p>The <code>\n</code> character sequence is used to print a new line. You will want to
+append it at the end of your strings for readability.</p>
+</div>
+</details>
+<details id="admonition--get-the-size-of-an-image" class="admonition info">
+<summary class="admonition-title">
+<p>... get the size of an image?</p>
+</summary>
+<div>
+<p><code>imageGetDimensionSize</code> allows one to get the size of one dimension of an
+image.</p>
+<p>It is used like this:</p>
+<pre><code class="language-java">Number size = imageGetDimensionSize(my_image_variable, the_dimension_i_want)
+</code></pre>
+<p>For example, if you want the first dimension (which is the \(x\) dimension)
+of an image, you will do:</p>
+<pre><code class="language-java">imageGetDimensionSize(my_image_variable, 0)
+</code></pre>
+<p>For 2D, 3D and 4D images, the \(y\) dimension (second dimension) is <code>1</code>, for
+\(z\) it is 2, and so on.</p>
+</div>
+</details>
+<details id="admonition--write-a-for-loop" class="admonition info">
+<summary class="admonition-title">
+<p>... write a <code>for</code>-loop?</p>
+</summary>
+<div>
+<p><code>for</code>-loops in Digital Micrograph use a <code>C</code>-like syntax:</p>
+<pre><code class="language-java">// ++i is a shorthand for i = i + 1
+for (Number i = 0 ; i &lt; 10 ; ++i) {
+    result(i + &quot;\n&quot;)
+}
+</code></pre>
+<p>This one means:</p>
+<ul>
+<li>Start with a number <code>i</code> equals to zero</li>
+<li>While <code>i</code> is lesser than 10, do:
+<ul>
+<li>Print <code>i</code></li>
+<li>Increase <code>i</code> by 1</li>
+</ul>
+</li>
+</ul>
+<p>The syntax can be broken down like this:</p>
+<pre><code class="language-java">for (Initialisation ; Loop condition ; What to do after each iteration) {
+    What to do for each iteration
+}
+</code></pre>
+</div>
+</details>
+<details id="admonition--write-an-if-statement" class="admonition info">
+<summary class="admonition-title">
+<p>... write an <code>if</code> statement?</p>
+</summary>
+<div>
+<p><code>if</code> statements in Digital Micrograph use a <code>C</code>-like syntax:</p>
+<pre><code class="language-java">Number n = random()
+if (n &lt; 0.5) {
+    result(&quot;Less than 0.5!\n&quot;)
+} else {
+    result(&quot;More than 0.5!\n&quot;)
+}
+</code></pre>
+<p>If you want to test different cases separately, one after the other, you can use <code>else if</code>:</p>
+<pre><code class="language-java">Number n = random()
+if (n &lt; 0.3) {
+    result(&quot;Less than 0.3!\n&quot;)
+} else if (n &lt; 0.5) {
+    result(&quot;Between 0.3 and 0.5!\n&quot;)
+} else {
+    result(&quot;More than 0.5!\n&quot;)
+}
+</code></pre>
+<p>To combine different conditions into one, you can use <code>&amp;&amp;</code> (<em>and</em>) and <code>||</code> (<em>or</em>):</p>
+<pre><code>Number n = random()
+if (0.3 &lt; n &amp;&amp; n &lt; 0.5) {
+    result(&quot;Between 0.3 AND 0.5!\n&quot;)
+}
+
+n = random()
+if (n &lt; 0.3 || 0.5 &lt; n) {
+    result(&quot;Either below 0.3 OR above 0.5!\n&quot;)
+}
+</code></pre>
+</div>
+</details>
+<details id="admonition--access-a-pixel-value" class="admonition info">
+<summary class="admonition-title">
+<p>... access a pixel value?</p>
+</summary>
+<div>
+<p>The syntax for accessing a given pixel (let's say x = 1 and y = 43) of the image
+<code>img</code> is:</p>
+<pre><code class="language-java">img[1, 43]
+</code></pre>
+<p>Tu use this access, you must do like this:</p>
+<pre><code class="language-java">// Here we change the value of the pixel.
+img[1, 43] = 42
+// Here we read the value of the pixel.
+// We have to wrap it inside sum( ) to get a Number,
+// as explained in &quot;The sum-pattern&quot; info box above.
+Number pixel_value = sum(img[1, 43])
+</code></pre>
+<p>For 1D images, the syntax is the same, except \(y\) is always
+equal to <code>0</code>, since whe only have a line image:</p>
+<pre><code class="language-java">// For pixel at x = 42
+img[42, 0]
+</code></pre>
+</div>
+</details>
 
                     </main>
 
