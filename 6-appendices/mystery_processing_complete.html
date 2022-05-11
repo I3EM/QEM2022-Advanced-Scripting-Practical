@@ -187,7 +187,7 @@ Number has_close_values(Image img, Number min_size) {
 	Number n = imageGetDimensionSize(img, 0)
 	for (Number i = 0 ; i &lt; n ; ++i) {
 		for (Number j = 0 ; j &lt; i ; ++j) {
-			if (abs(sum(img[i, 0]) - sum(img[j, 0])) &lt; min_size) {
+			if (abs(getPixel(img, i, 0) - getPixel(img, j, 0)) &lt; min_size) {
 				return 1
 			}
 		}
@@ -202,8 +202,8 @@ void bubble_sort(Image img) {
 	while (is_unsorted) {
 		Number swapped_values = 0
 		for (Number i = 0 ; i &lt; size - 1 ; ++i) {
-			if (sum(img[i + 1, 0] &lt; img[i, 0])) {
-				Number temp = sum(img[i, 0])
+			if (getPixel(img, i + 1, 0) &lt; getPixel(img, i, 0)) {
+				Number temp = getPixel(img, i, 0)
 				img[i, 0] = img[i + 1, 0]
 				img[i + 1, 0] = temp
 				++swapped_values
@@ -235,11 +235,14 @@ Image pseudospectrum_with_maximums_at(Number size, Image maximum_positions) {
 	
 	img = icol/size * (icol - size)/size
 	for (Number i = 0 ; i &lt; peak_numbers - 1 ; ++i) {
-		img *= (icol - sum(maximum_positions[i, 0]))/size
-		Number middle = (sum(maximum_positions[i, 0]) + sum(maximum_positions[i + 1, 0])) / 2
+		img *= (icol - getPixel(maximum_positions, i, 0))/size
+		Number middle = ( \
+			getPixel(maximum_positions, i, 0) + \
+			getPixel(maximum_positions, i + 1, 0) \
+		) / 2
 		img *= (icol - middle)/size
 	}
-	img *= (icol - sum(maximum_positions[peak_numbers - 1, 0]))/size
+	img *= (icol - getPixel(maximum_positions, peak_numbers - 1, 0))/size
 		
 	for (Number i = 1 ; i &lt; size ; ++i) {
 		img[i, 0] += img[i - 1, 0]
@@ -301,7 +304,7 @@ Image mystery_swapped := mystery_swap(src)
 
 Image with_polynomial := add_random_polynomial(mystery_swapped)
 
-Image maximum_positions := round(random_image_with_min_dist(4, 10, 990, 50))
+Image maximum_positions := random_image_with_min_dist(4, 10, 990, 50)
 Number s = round( mean(maximum_positions) / 8 )
 Image pseudo_spectrum := pseudospectrum_with_maximums_at(1000, maximum_positions)
 

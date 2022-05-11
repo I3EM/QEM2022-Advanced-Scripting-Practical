@@ -302,8 +302,8 @@ Number mean_maximum_positions(Image img) {
 	Number maximums_number = 0
 
 	for (Number i = 1 ; i &lt; size - 1 ; ++i) {
-		if (sum(img[i - 1, 0]) &lt;= sum(img[i, 0]) &amp;&amp; \
-			sum(img[i + 1, 0]) &lt;= sum(img[i, 0])) {
+		if (getPixel(img, i - 1, 0) &lt;= getPixel(img, i, 0) &amp;&amp; \
+			getPixel(img, i + 1, 0) &lt;= getPixel(img, i, 0)) {
 			++maximums_number
 			mean += (i - mean)/maximums_number
 			++i
@@ -352,7 +352,7 @@ Image mystery_swapped := mystery_swap(src)
 
 Image with_polynomial := add_random_polynomial(mystery_swapped)
 
-Image maximum_positions := round(random_image_with_min_dist(4, 10, 990, 50))
+Image maximum_positions := random_image_with_min_dist(4, 10, 990, 50)
 Number s = round( mean(maximum_positions) / 8 )
 Image pseudo_spectrum := pseudospectrum_with_maximums_at(1000, maximum_positions)
 

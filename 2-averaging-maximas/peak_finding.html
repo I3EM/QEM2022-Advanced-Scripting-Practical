@@ -162,20 +162,18 @@ can try to filter your input to get cleaner result. In our case, this is not
 necessary.</p>
 </div>
 </div>
-<div id="admonition-the-sum-pattern" class="admonition info">
+<div id="admonition-the-getpixel-function" class="admonition info">
 <div class="admonition-title">
-<p>The <code>sum</code>-pattern</p>
+<p>The <code>getPixel</code> function</p>
 </div>
 <div>
 <p>Due to the way the <code>=</code> operator work on images, the result of using the
 <code>[]</code> operator on an image (like in <code>img[1, 6]</code>) is a 0D point image.
-However, we often need a <code>Number</code> instead of an <code>Image</code>. The most
-reliable way to do that is to use the <code>sum</code> function, which gives
-us a <code>Number</code>. Since a 0D image has only 1 value, the sum returns this
-value.
-Therefore, if you need to extract the value of say, the pixel <code>(1, 2)</code>
-of the image <code>img</code>, you would do:</p>
-<pre><code class="language-java">sum(img[1, 2])
+However, we often need a <code>Number</code> instead of an <code>Image</code>. The do that,
+we need to use the <code>getPixel</code> function. For example, if you need to
+extract the value of say, the pixel <code>(1, 2)</code> of the image <code>img</code>, you
+would do:</p>
+<pre><code class="language-java">getPixel(img, 1, 2)
 </code></pre>
 </div>
 </div>
@@ -311,10 +309,9 @@ if (n &lt; 0.3 || 0.5 &lt; n) {
 <p>Tu use this access, you must do like this:</p>
 <pre><code class="language-java">// Here we change the value of the pixel.
 img[1, 43] = 42
-// Here we read the value of the pixel.
-// We have to wrap it inside sum( ) to get a Number,
-// as explained in &quot;The sum-pattern&quot; info box above.
-Number pixel_value = sum(img[1, 43])
+// Here we read the value of the pixel, as explained in &quot;The getPixel function&quot;
+// info box above.
+Number pixel_value = getPixel(img, 1, 43)
 </code></pre>
 <p>For 1D images, the syntax is the same, except \(y\) is always
 equal to <code>0</code>, since whe only have a line image:</p>

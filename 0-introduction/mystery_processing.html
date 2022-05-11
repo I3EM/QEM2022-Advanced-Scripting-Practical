@@ -155,7 +155,7 @@ Image mystery_swapped := mystery_swap(src)
 
 Image with_polynomial := add_random_polynomial(mystery_swapped)
 
-Image maximum_positions := round(random_image_with_min_dist(4, 10, 990, 50))
+Image maximum_positions := random_image_with_min_dist(4, 10, 990, 50)
 Number s = round( mean(maximum_positions) / 8 )
 Image pseudo_spectrum := pseudospectrum_with_maximums_at(1000, maximum_positions)
 

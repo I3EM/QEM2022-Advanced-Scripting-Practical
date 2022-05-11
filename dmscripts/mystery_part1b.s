@@ -21,7 +21,7 @@ Number has_close_values(Image img, Number min_size) {
 	Number n = imageGetDimensionSize(img, 0)
 	for (Number i = 0 ; i < n ; ++i) {
 		for (Number j = 0 ; j < i ; ++j) {
-			if (abs(sum(img[i, 0]) - sum(img[j, 0])) < min_size) {
+			if (abs(getPixel(img, i, 0) - getPixel(img, j, 0)) < min_size) {
 				return 1
 			}
 		}
@@ -36,8 +36,8 @@ void bubble_sort(Image img) {
 	while (is_unsorted) {
 		Number swapped_values = 0
 		for (Number i = 0 ; i < size - 1 ; ++i) {
-			if (sum(img[i + 1, 0] < img[i, 0])) {
-				Number temp = sum(img[i, 0])
+			if (getPixel(img, i + 1, 0) < getPixel(img, i, 0)) {
+				Number temp = getPixel(img, i, 0)
 				img[i, 0] = img[i + 1, 0]
 				img[i + 1, 0] = temp
 				++swapped_values
@@ -69,11 +69,14 @@ Image pseudospectrum_with_maximums_at(Number size, Image maximum_positions) {
 	
 	img = icol/size * (icol - size)/size
 	for (Number i = 0 ; i < peak_numbers - 1 ; ++i) {
-		img *= (icol - sum(maximum_positions[i, 0]))/size
-		Number middle = (sum(maximum_positions[i, 0]) + sum(maximum_positions[i + 1, 0])) / 2
+		img *= (icol - getPixel(maximum_positions, i, 0))/size
+		Number middle = ( \
+			getPixel(maximum_positions, i, 0) + \
+			getPixel(maximum_positions, i + 1, 0) \
+		) / 2
 		img *= (icol - middle)/size
 	}
-	img *= (icol - sum(maximum_positions[peak_numbers - 1, 0]))/size
+	img *= (icol - getPixel(maximum_positions, peak_numbers - 1, 0))/size
 		
 	for (Number i = 1 ; i < size ; ++i) {
 		img[i, 0] += img[i - 1, 0]

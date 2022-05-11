@@ -195,9 +195,9 @@ Before consulting it, we encourage you to make your own tries.</p>
 	
 	Image result := realImage(&quot;&quot;, 8, x_size, y_size)
 	result = src - (\
-		round(sum(solution[0, 0])) * xxy + \
-		round(sum(solution[1, 0])) *  yy + \
-		round(sum(solution[2, 0])) * yyy   \
+		round(getPixel(solution, 0, 0)) * xxy + \
+		round(getPixel(solution, 1, 0)) *  yy + \
+		round(getPixel(solution, 2, 0)) * yyy   \
 	)
 
 	return result
@@ -229,8 +229,8 @@ Number mean_maximum_positions(Image img) {
 	Number maximums_number = 0
 
 	for (Number i = 1 ; i &lt; size - 1 ; ++i) {
-		if (sum(img[i - 1, 0]) &lt;= sum(img[i, 0]) &amp;&amp; \
-			sum(img[i + 1, 0]) &lt;= sum(img[i, 0])) {
+		if (getPixel(img, i - 1, 0) &lt;= getPixel(img, i, 0) &amp;&amp; \
+			getPixel(img, i + 1, 0) &lt;= getPixel(img, i, 0)) {
 			++maximums_number
 			mean += (i - mean)/maximums_number
 			++i
@@ -291,9 +291,9 @@ Image remove_polynomial_background(Image src) {
 	
 	Image result := realImage(&quot;&quot;, 8, x_size, y_size)
 	result = src - (\
-		round(sum(solution[0, 0])) * xxy + \
-		round(sum(solution[1, 0])) *  yy + \
-		round(sum(solution[2, 0])) * yyy   \
+		round(getPixel(solution, 0, 0)) * xxy + \
+		round(getPixel(solution, 1, 0)) *  yy + \
+		round(getPixel(solution, 2, 0)) * yyy   \
 	)
 
 	return result

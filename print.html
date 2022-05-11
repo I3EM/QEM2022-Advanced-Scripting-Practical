@@ -252,7 +252,7 @@ Image mystery_swapped := mystery_swap(src)
 
 Image with_polynomial := add_random_polynomial(mystery_swapped)
 
-Image maximum_positions := round(random_image_with_min_dist(4, 10, 990, 50))
+Image maximum_positions := random_image_with_min_dist(4, 10, 990, 50)
 Number s = round( mean(maximum_positions) / 8 )
 Image pseudo_spectrum := pseudospectrum_with_maximums_at(1000, maximum_positions)
 
@@ -343,7 +343,7 @@ code excerpt is as follows:</p>
 <p>Where <code>with_polynomial</code> is the input image. We see that there is a
 parameter <code>s</code> that comes into play. In order to revert the function,
 we will need to retrieve its value. If we look at its definition:</p>
-<pre><code class="language-java">Image maximum_positions := round(random_image_with_min_dist(4, 10, 990, 50))
+<pre><code class="language-java">Image maximum_positions := random_image_with_min_dist(4, 10, 990, 50)
 Number s = round( mean(maximum_positions) / 8 )
 </code></pre>
 <pre class="mermaid">
@@ -633,7 +633,7 @@ Image mystery_swapped := mystery_swap(src)
 
 Image with_polynomial := add_random_polynomial(mystery_swapped)
 
-Image maximum_positions := round(random_image_with_min_dist(4, 10, 990, 50))
+Image maximum_positions := random_image_with_min_dist(4, 10, 990, 50)
 Number s = round( mean(maximum_positions) / 8 )
 Image pseudo_spectrum := pseudospectrum_with_maximums_at(1000, maximum_positions)
 
@@ -682,7 +682,7 @@ graph TD
 </pre>
 <p>Now that we have our pseudospectrum, it is time to actually extract the
 <code>s</code> value we are looking for. If we look at the code:</p>
-<pre><code class="language-java">Image maximum_positions := round(random_image_with_min_dist(4, 10, 990, 50))
+<pre><code class="language-java">Image maximum_positions := random_image_with_min_dist(4, 10, 990, 50)
 Number s = round( mean(maximum_positions) / 8 )
 Image pseudo_spectrum := pseudospectrum_with_maximums_at(1000, maximum_positions)
 </code></pre>
@@ -721,7 +721,7 @@ Number has_close_values(Image img, Number min_size) {
 	Number n = imageGetDimensionSize(img, 0)
 	for (Number i = 0 ; i &lt; n ; ++i) {
 		for (Number j = 0 ; j &lt; i ; ++j) {
-			if (abs(sum(img[i, 0]) - sum(img[j, 0])) &lt; min_size) {
+			if (abs(getPixel(img, i, 0) - getPixel(img, j, 0)) &lt; min_size) {
 				return 1
 			}
 		}
@@ -736,8 +736,8 @@ void bubble_sort(Image img) {
 	while (is_unsorted) {
 		Number swapped_values = 0
 		for (Number i = 0 ; i &lt; size - 1 ; ++i) {
-			if (sum(img[i + 1, 0] &lt; img[i, 0])) {
-				Number temp = sum(img[i, 0])
+			if (getPixel(img, i + 1, 0) &lt; getPixel(img, i, 0)) {
+				Number temp = getPixel(img, i, 0)
 				img[i, 0] = img[i + 1, 0]
 				img[i + 1, 0] = temp
 				++swapped_values
@@ -769,11 +769,14 @@ Image pseudospectrum_with_maximums_at(Number size, Image maximum_positions) {
 	
 	img = icol/size * (icol - size)/size
 	for (Number i = 0 ; i &lt; peak_numbers - 1 ; ++i) {
-		img *= (icol - sum(maximum_positions[i, 0]))/size
-		Number middle = (sum(maximum_positions[i, 0]) + sum(maximum_positions[i + 1, 0])) / 2
+		img *= (icol - getPixel(maximum_positions, i, 0))/size
+		Number middle = ( \
+			getPixel(maximum_positions, i, 0) + \
+			getPixel(maximum_positions, i + 1, 0) \
+		) / 2
 		img *= (icol - middle)/size
 	}
-	img *= (icol - sum(maximum_positions[peak_numbers - 1, 0]))/size
+	img *= (icol - getPixel(maximum_positions, peak_numbers - 1, 0))/size
 		
 	for (Number i = 1 ; i &lt; size ; ++i) {
 		img[i, 0] += img[i - 1, 0]
@@ -799,20 +802,18 @@ can try to filter your input to get cleaner result. In our case, this is not
 necessary.</p>
 </div>
 </div>
-<div id="admonition-the-sum-pattern" class="admonition info">
+<div id="admonition-the-getpixel-function" class="admonition info">
 <div class="admonition-title">
-<p>The <code>sum</code>-pattern</p>
+<p>The <code>getPixel</code> function</p>
 </div>
 <div>
 <p>Due to the way the <code>=</code> operator work on images, the result of using the
 <code>[]</code> operator on an image (like in <code>img[1, 6]</code>) is a 0D point image.
-However, we often need a <code>Number</code> instead of an <code>Image</code>. The most
-reliable way to do that is to use the <code>sum</code> function, which gives
-us a <code>Number</code>. Since a 0D image has only 1 value, the sum returns this
-value.
-Therefore, if you need to extract the value of say, the pixel <code>(1, 2)</code>
-of the image <code>img</code>, you would do:</p>
-<pre><code class="language-java">sum(img[1, 2])
+However, we often need a <code>Number</code> instead of an <code>Image</code>. The do that,
+we need to use the <code>getPixel</code> function. For example, if you need to
+extract the value of say, the pixel <code>(1, 2)</code> of the image <code>img</code>, you
+would do:</p>
+<pre><code class="language-java">getPixel(img, 1, 2)
 </code></pre>
 </div>
 </div>
@@ -948,10 +949,9 @@ if (n &lt; 0.3 || 0.5 &lt; n) {
 <p>Tu use this access, you must do like this:</p>
 <pre><code class="language-java">// Here we change the value of the pixel.
 img[1, 43] = 42
-// Here we read the value of the pixel.
-// We have to wrap it inside sum( ) to get a Number,
-// as explained in &quot;The sum-pattern&quot; info box above.
-Number pixel_value = sum(img[1, 43])
+// Here we read the value of the pixel, as explained in &quot;The getPixel function&quot;
+// info box above.
+Number pixel_value = getPixel(img, 1, 43)
 </code></pre>
 <p>For 1D images, the syntax is the same, except \(y\) is always
 equal to <code>0</code>, since whe only have a line image:</p>
@@ -982,8 +982,8 @@ Before consulting it, we encourage you to make your own tries.</p>
 	Number maximums_number = 0
 
 	for (Number i = 1 ; i &lt; size - 1 ; ++i) {
-		if (sum(img[i - 1, 0]) &lt;= sum(img[i, 0]) &amp;&amp; \
-			sum(img[i + 1, 0]) &lt;= sum(img[i, 0])) {
+		if (getPixel(img, i - 1, 0) &lt;= getPixel(img, i, 0) &amp;&amp; \
+			getPixel(img, i + 1, 0) &lt;= getPixel(img, i, 0)) {
 			++maximums_number
 			mean += (i - mean)/maximums_number
 			++i
@@ -1019,8 +1019,8 @@ Number mean_maximum_positions(Image img) {
 	Number maximums_number = 0
 
 	for (Number i = 1 ; i &lt; size - 1 ; ++i) {
-		if (sum(img[i - 1, 0]) &lt;= sum(img[i, 0]) &amp;&amp; \
-			sum(img[i + 1, 0]) &lt;= sum(img[i, 0])) {
+		if (getPixel(img, i - 1, 0) &lt;= getPixel(img, i, 0) &amp;&amp; \
+			getPixel(img, i + 1, 0) &lt;= getPixel(img, i, 0)) {
 			++maximums_number
 			mean += (i - mean)/maximums_number
 			++i
@@ -1196,8 +1196,8 @@ Number mean_maximum_positions(Image img) {
 	Number maximums_number = 0
 
 	for (Number i = 1 ; i &lt; size - 1 ; ++i) {
-		if (sum(img[i - 1, 0]) &lt;= sum(img[i, 0]) &amp;&amp; \
-			sum(img[i + 1, 0]) &lt;= sum(img[i, 0])) {
+		if (getPixel(img, i - 1, 0) &lt;= getPixel(img, i, 0) &amp;&amp; \
+			getPixel(img, i + 1, 0) &lt;= getPixel(img, i, 0)) {
 			++maximums_number
 			mean += (i - mean)/maximums_number
 			++i
@@ -1246,7 +1246,7 @@ Image mystery_swapped := mystery_swap(src)
 
 Image with_polynomial := add_random_polynomial(mystery_swapped)
 
-Image maximum_positions := round(random_image_with_min_dist(4, 10, 990, 50))
+Image maximum_positions := random_image_with_min_dist(4, 10, 990, 50)
 Number s = round( mean(maximum_positions) / 8 )
 Image pseudo_spectrum := pseudospectrum_with_maximums_at(1000, maximum_positions)
 
@@ -1557,9 +1557,9 @@ Before consulting it, we encourage you to make your own tries.</p>
 	
 	Image result := realImage(&quot;&quot;, 8, x_size, y_size)
 	result = src - (\
-		round(sum(solution[0, 0])) * xxy + \
-		round(sum(solution[1, 0])) *  yy + \
-		round(sum(solution[2, 0])) * yyy   \
+		round(getPixel(solution, 0, 0)) * xxy + \
+		round(getPixel(solution, 1, 0)) *  yy + \
+		round(getPixel(solution, 2, 0)) * yyy   \
 	)
 
 	return result
@@ -1591,8 +1591,8 @@ Number mean_maximum_positions(Image img) {
 	Number maximums_number = 0
 
 	for (Number i = 1 ; i &lt; size - 1 ; ++i) {
-		if (sum(img[i - 1, 0]) &lt;= sum(img[i, 0]) &amp;&amp; \
-			sum(img[i + 1, 0]) &lt;= sum(img[i, 0])) {
+		if (getPixel(img, i - 1, 0) &lt;= getPixel(img, i, 0) &amp;&amp; \
+			getPixel(img, i + 1, 0) &lt;= getPixel(img, i, 0)) {
 			++maximums_number
 			mean += (i - mean)/maximums_number
 			++i
@@ -1653,9 +1653,9 @@ Image remove_polynomial_background(Image src) {
 	
 	Image result := realImage(&quot;&quot;, 8, x_size, y_size)
 	result = src - (\
-		round(sum(solution[0, 0])) * xxy + \
-		round(sum(solution[1, 0])) *  yy + \
-		round(sum(solution[2, 0])) * yyy   \
+		round(getPixel(solution, 0, 0)) * xxy + \
+		round(getPixel(solution, 1, 0)) *  yy + \
+		round(getPixel(solution, 2, 0)) * yyy   \
 	)
 
 	return result
@@ -1878,8 +1878,8 @@ Number mean_maximum_positions(Image img) {
 	Number maximums_number = 0
 
 	for (Number i = 1 ; i &lt; size - 1 ; ++i) {
-		if (sum(img[i - 1, 0]) &lt;= sum(img[i, 0]) &amp;&amp; \
-			sum(img[i + 1, 0]) &lt;= sum(img[i, 0])) {
+		if (getPixel(img, i - 1, 0) &lt;= getPixel(img, i, 0) &amp;&amp; \
+			getPixel(img, i + 1, 0) &lt;= getPixel(img, i, 0)) {
 			++maximums_number
 			mean += (i - mean)/maximums_number
 			++i
@@ -1940,9 +1940,9 @@ Image remove_polynomial_background(Image src) {
 	
 	Image result := realImage(&quot;&quot;, 8, x_size, y_size)
 	result = src - (\
-		round(sum(solution[0, 0])) * xxy + \
-		round(sum(solution[1, 0])) *  yy + \
-		round(sum(solution[2, 0])) * yyy   \
+		round(getPixel(solution, 0, 0)) * xxy + \
+		round(getPixel(solution, 1, 0)) *  yy + \
+		round(getPixel(solution, 2, 0)) * yyy   \
 	)
 
 	return result
@@ -2026,7 +2026,7 @@ Number has_close_values(Image img, Number min_size) {
 	Number n = imageGetDimensionSize(img, 0)
 	for (Number i = 0 ; i &lt; n ; ++i) {
 		for (Number j = 0 ; j &lt; i ; ++j) {
-			if (abs(sum(img[i, 0]) - sum(img[j, 0])) &lt; min_size) {
+			if (abs(getPixel(img, i, 0) - getPixel(img, j, 0)) &lt; min_size) {
 				return 1
 			}
 		}
@@ -2041,8 +2041,8 @@ void bubble_sort(Image img) {
 	while (is_unsorted) {
 		Number swapped_values = 0
 		for (Number i = 0 ; i &lt; size - 1 ; ++i) {
-			if (sum(img[i + 1, 0] &lt; img[i, 0])) {
-				Number temp = sum(img[i, 0])
+			if (getPixel(img, i + 1, 0) &lt; getPixel(img, i, 0)) {
+				Number temp = getPixel(img, i, 0)
 				img[i, 0] = img[i + 1, 0]
 				img[i + 1, 0] = temp
 				++swapped_values
@@ -2074,11 +2074,14 @@ Image pseudospectrum_with_maximums_at(Number size, Image maximum_positions) {
 	
 	img = icol/size * (icol - size)/size
 	for (Number i = 0 ; i &lt; peak_numbers - 1 ; ++i) {
-		img *= (icol - sum(maximum_positions[i, 0]))/size
-		Number middle = (sum(maximum_positions[i, 0]) + sum(maximum_positions[i + 1, 0])) / 2
+		img *= (icol - getPixel(maximum_positions, i, 0))/size
+		Number middle = ( \
+			getPixel(maximum_positions, i, 0) + \
+			getPixel(maximum_positions, i + 1, 0) \
+		) / 2
 		img *= (icol - middle)/size
 	}
-	img *= (icol - sum(maximum_positions[peak_numbers - 1, 0]))/size
+	img *= (icol - getPixel(maximum_positions, peak_numbers - 1, 0))/size
 		
 	for (Number i = 1 ; i &lt; size ; ++i) {
 		img[i, 0] += img[i - 1, 0]
@@ -2140,7 +2143,7 @@ Image mystery_swapped := mystery_swap(src)
 
 Image with_polynomial := add_random_polynomial(mystery_swapped)
 
-Image maximum_positions := round(random_image_with_min_dist(4, 10, 990, 50))
+Image maximum_positions := random_image_with_min_dist(4, 10, 990, 50)
 Number s = round( mean(maximum_positions) / 8 )
 Image pseudo_spectrum := pseudospectrum_with_maximums_at(1000, maximum_positions)
 
@@ -2200,8 +2203,8 @@ Number mean_maximum_positions(Image img) {
 	Number maximums_number = 0
 
 	for (Number i = 1 ; i &lt; size - 1 ; ++i) {
-		if (sum(img[i - 1, 0]) &lt;= sum(img[i, 0]) &amp;&amp; \
-			sum(img[i + 1, 0]) &lt;= sum(img[i, 0])) {
+		if (getPixel(img, i - 1, 0) &lt;= getPixel(img, i, 0) &amp;&amp; \
+			getPixel(img, i + 1, 0) &lt;= getPixel(img, i, 0)) {
 			++maximums_number
 			mean += (i - mean)/maximums_number
 			++i
@@ -2262,9 +2265,9 @@ Image remove_polynomial_background(Image src) {
 	
 	Image result := realImage(&quot;&quot;, 8, x_size, y_size)
 	result = src - (\
-		round(sum(solution[0, 0])) * xxy + \
-		round(sum(solution[1, 0])) *  yy + \
-		round(sum(solution[2, 0])) * yyy   \
+		round(getPixel(solution, 0, 0)) * xxy + \
+		round(getPixel(solution, 1, 0)) *  yy + \
+		round(getPixel(solution, 2, 0)) * yyy   \
 	)
 
 	return result
@@ -2321,8 +2324,8 @@ Number mean_maximum_positions(Image img) {
 	Number maximums_number = 0
 
 	for (Number i = 1 ; i &lt; size - 1 ; ++i) {
-		if (sum(img[i - 1, 0]) &lt;= sum(img[i, 0]) &amp;&amp; \
-			sum(img[i + 1, 0]) &lt;= sum(img[i, 0])) {
+		if (getPixel(img, i - 1, 0) &lt;= getPixel(img, i, 0) &amp;&amp; \
+			getPixel(img, i + 1, 0) &lt;= getPixel(img, i, 0)) {
 			++maximums_number
 			mean += (i - mean)/maximums_number
 			++i
@@ -2383,9 +2386,9 @@ Image remove_polynomial_background(Image src) {
 	
 	Image result := realImage(&quot;&quot;, 8, x_size, y_size)
 	result = src - (\
-		round(sum(solution[0, 0])) * xxy + \
-		round(sum(solution[1, 0])) *  yy + \
-		round(sum(solution[2, 0])) * yyy   \
+		round(getPixel(solution, 0, 0)) * xxy + \
+		round(getPixel(solution, 1, 0)) *  yy + \
+		round(getPixel(solution, 2, 0)) * yyy   \
 	)
 
 	return result
