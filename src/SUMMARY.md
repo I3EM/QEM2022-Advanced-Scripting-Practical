@@ -3,8 +3,9 @@
 [Introduction](0-introduction/introduction.md)
 [How to Use this Document](0-introduction/using-this-document.md)
 
-[Overview of the Mystery Processing](0-introduction/mystery_processing.md)
 [Pick an Image](0-introduction/pick_image.md)
+
+[Overview of the Mystery Processing](0-introduction/mystery_processing.md)
 
 - [Reverting the Transfer Function](1-extracting-pseudospectrum/recap.md)
     - [Extracting the Pseudospectrum](1-extracting-pseudospectrum/pseudospectrum.md)
