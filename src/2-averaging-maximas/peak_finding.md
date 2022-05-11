@@ -13,17 +13,15 @@ can try to filter your input to get cleaner result. In our case, this is not
 necessary.
 ~~~
 
-~~~admonish info title="The `sum`-pattern"
+~~~admonish info title="The `getPixel` function"
 Due to the way the `=` operator work on images, the result of using the
 `[]` operator on an image (like in `img[1, 6]`) is a 0D point image.
-However, we often need a `Number` instead of an `Image`. The most
-reliable way to do that is to use the `sum` function, which gives
-us a `Number`. Since a 0D image has only 1 value, the sum returns this
-value.
-Therefore, if you need to extract the value of say, the pixel `(1, 2)`
-of the image `img`, you would do:
+However, we often need a `Number` instead of an `Image`. The do that,
+we need to use the `getPixel` function. For example, if you need to
+extract the value of say, the pixel `(1, 2)` of the image `img`, you
+would do:
 ```java
-sum(img[1, 2])
+getPixel(img, 1, 2)
 ```
 ~~~
 
@@ -146,10 +144,9 @@ Tu use this access, you must do like this:
 ```java
 // Here we change the value of the pixel.
 img[1, 43] = 42
-// Here we read the value of the pixel.
-// We have to wrap it inside sum( ) to get a Number,
-// as explained in "The sum-pattern" info box above.
-Number pixel_value = sum(img[1, 43])
+// Here we read the value of the pixel, as explained in "The getPixel function"
+// info box above.
+Number pixel_value = getPixel(img, 1, 43)
 ```
 For 1D images, the syntax is the same, except \\(y\\) is always
 equal to `0`, since whe only have a line image:

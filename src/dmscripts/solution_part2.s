@@ -24,9 +24,9 @@ Image remove_polynomial_background(Image src) {
 	
 	Image result := realImage("", 8, x_size, y_size)
 	result = src - (\
-		round(sum(solution[0, 0])) * xxy + \
-		round(sum(solution[1, 0])) *  yy + \
-		round(sum(solution[2, 0])) * yyy   \
+		round(getPixel(solution, 0, 0)) * xxy + \
+		round(getPixel(solution, 1, 0)) *  yy + \
+		round(getPixel(solution, 2, 0)) * yyy   \
 	)
 
 	return result
