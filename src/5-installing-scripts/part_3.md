@@ -57,7 +57,7 @@ Digital Micrograph gives us two option:
 
    This mode may also be used for arbitrary code execution at start-up, for example
    to automatically setup a connection with our microscope, to print some instrument
-   state in the `Output` window, to open the last closed image...
+   state in the `Results` window, to open the last closed image...
 
 ~~~admonish tip title="Installing a script as a library" collapsible=true
 1. Make sure your script is open in Digital Micrograph.

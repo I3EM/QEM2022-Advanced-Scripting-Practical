@@ -48,7 +48,7 @@ In this cases, it is more convenient to use the cumulative mean \\(\overline{u}_
 ## Recap: How do I...
 
 ~~~admonish info title="... print a number or a string?" collapsible=true
-To print something in Digital Micrograph in the `Output` window, you use
+To print something in Digital Micrograph in the `Results` window, you use
 the `result` function:
 ```java
 result("Here I print a string\n")
